@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Maison Zahra — Parfums composés à Alger</title>
+<meta name="description" content="Trois parfums composés à Alger : Néroli de Blida, Rose de la Casbah, Oud du Hoggar. Livraison 58 wilayas, paiement à la livraison.">
+<meta property="og:title" content="Maison Zahra — Parfums composés à Alger">
+<meta property="og:description" content="Démo 3D réalisée par Landify DZ.">
+<meta property="og:image" content="img/apercu.jpg">
+<meta name="theme-color" content="#14213D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Figtree:wght@400;500;600;700&family=Amiri:wght@700&display=swap">
+<style>
+:root{
+  --bg:#14213D; --ink:#F3E9D8; --brass:#C9A45C;
+  --display:'Marcellus', 'Times New Roman', serif;
+  --body:'Figtree', system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.6;overflow-x:hidden;transition:none}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:4px}
+
+/* bande démo */
+.demo{position:relative;z-index:20;background:#0A1226;color:#D9CFBC;font-size:13px;text-align:center;padding:7px 16px;line-height:1.4}
+.demo b{color:var(--brass);font-weight:600}
+
+/* navigation */
+nav{position:fixed;top:30px;left:0;right:0;z-index:15;display:flex;align-items:center;gap:28px;padding:18px clamp(16px,4vw,56px);transition:top .3s}
+nav.up{top:0}
+.logo{font-family:var(--display);font-size:26px;letter-spacing:.06em;text-decoration:none;display:flex;align-items:baseline;gap:10px;margin-inline-end:auto}
+.logo span{font-family:'Amiri',serif;font-size:22px;color:var(--brass)}
+nav .lk{font-size:15px;text-decoration:none;opacity:.82}
+nav .lk:hover{opacity:1;text-decoration:underline;text-underline-offset:4px}
+.wa-btn{display:inline-flex;align-items:center;gap:8px;font:600 15px var(--body);text-decoration:none;padding:10px 18px;border-radius:999px;border:1.5px solid currentColor}
+.wa-btn:hover{background:var(--ink);color:var(--bg)}
+.wa-btn svg{width:18px;height:18px}
+
+/* toile 3D */
+#gl{position:fixed;inset:0;width:100vw;height:100vh;z-index:1;pointer-events:none;display:block}
+.no-gl #gl{display:none}
+
+/* hero : le titre passe DERRIÈRE le flacon */
+.hero{position:relative;z-index:0;height:100vh;min-height:560px;display:grid;place-items:center;overflow:hidden}
+.hero h1{margin:0;font-family:var(--display);font-weight:400;font-size:clamp(110px,27vw,430px);line-height:.8;letter-spacing:.04em;color:var(--brass);opacity:.92;user-select:none;transform:translateY(-4vh)}
+.hero .tag{position:absolute;z-index:3;left:clamp(16px,4vw,56px);bottom:7vh;max-width:22rem}
+.hero .tag p{margin:0 0 6px;font-size:19px}
+.hero .tag small{opacity:.7;font-size:14px}
+.hero .side{position:absolute;z-index:3;right:clamp(16px,4vw,56px);bottom:7vh;text-align:right;font-size:14px;opacity:.75}
+.hero .side b{display:block;font-family:'Amiri',serif;font-size:30px;color:var(--brass);opacity:1;line-height:1.2}
+.fallback{display:none}
+.no-gl .fallback{display:block;position:absolute;z-index:2;height:62vh;width:auto;left:50%;top:50%;transform:translate(-50%,-46%)}
+
+/* scènes de défilement */
+.scene{position:relative;z-index:2;height:175vh;padding:0 clamp(16px,6vw,96px)}
+.scene.short{height:150vh}
+.copy{position:sticky;top:30vh;max-width:27rem}
+.copy.right{margin-left:auto}
+.copy .k{font-size:15px;font-weight:600;margin:0 0 10px;opacity:.75}
+.copy h2{font-family:var(--display);font-weight:400;font-size:clamp(38px,4.6vw,64px);line-height:1.05;margin:0 0 18px;letter-spacing:.01em}
+.copy p{margin:0;font-size:19px;max-width:26rem}
+.facts{display:flex;gap:28px;margin-top:26px;padding-top:18px;border-top:1px solid color-mix(in srgb,var(--ink) 30%,transparent)}
+.facts div{font-size:14px;opacity:.85}
+.facts b{display:block;font-family:var(--display);font-weight:400;font-size:30px;line-height:1.1;opacity:1}
+
+/* collection */
+.col .copy{top:auto;position:sticky;top:64vh;max-width:none;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 40px;align-items:end;border-top:1px solid color-mix(in srgb,var(--ink) 35%,transparent);padding-top:18px}
+.col .copy h2{margin:0;font-size:clamp(34px,4vw,56px)}
+.col .copy p{grid-column:1}
+.price{grid-column:2;grid-row:1 / span 3;text-align:right;align-self:center}
+.price b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(30px,3.2vw,44px);line-height:1.1}
+.price small{display:block;font-size:14px;opacity:.75;margin-bottom:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:600 16px var(--body);padding:14px 24px;border-radius:999px;border:0;cursor:pointer;background:var(--ink);color:var(--bg);text-decoration:none}
+.btn:hover{filter:brightness(1.08)}
+.btn svg{width:20px;height:20px}
+
+/* commande */
+#commander{position:relative;z-index:2;min-height:100vh;padding:120px clamp(16px,6vw,96px) 80px;display:grid;grid-template-columns:1fr minmax(0,31rem);align-items:center}
+.order h2{font-family:var(--display);font-weight:400;font-size:clamp(40px,4.6vw,64px);line-height:1.05;margin:0 0 12px}
+.order>p{margin:0 0 28px;opacity:.85}
+form{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+.f{display:flex;flex-direction:column;gap:6px}
+.f.full{grid-column:1 / -1}
+label,legend{font-size:14px;font-weight:600}
+input,select{font:500 17px var(--body);color:var(--ink);background:color-mix(in srgb,var(--ink) 8%,transparent);border:1px solid color-mix(in srgb,var(--ink) 30%,transparent);border-radius:12px;padding:13px 14px;width:100%;min-height:50px}
+select option{color:#14213D}
+input::placeholder{color:color-mix(in srgb,var(--ink) 55%,transparent)}
+fieldset{border:0;margin:0;padding:0;grid-column:1 / -1}
+.choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:6px}
+.choices.two{grid-template-columns:1fr 1fr}
+.choices label{position:relative;cursor:pointer;border:1px solid color-mix(in srgb,var(--ink) 30%,transparent);border-radius:12px;padding:12px;font-weight:500;font-size:15px;line-height:1.3}
+.choices label small{display:block;opacity:.7;font-size:13px}
+.choices input{position:absolute;opacity:0;pointer-events:none}
+.choices label:has(input:checked){border-color:var(--brass);background:color-mix(in srgb,var(--brass) 18%,transparent)}
+.choices label:has(input:focus-visible){outline:2px solid var(--brass);outline-offset:2px}
+.total{grid-column:1 / -1;display:flex;justify-content:space-between;align-items:baseline;padding:14px 0 4px;border-top:1px solid color-mix(in srgb,var(--ink) 30%,transparent)}
+.total b{font-family:var(--display);font-weight:400;font-size:34px}
+form .btn{grid-column:1 / -1;background:#1F8A5B;color:#fff;padding:17px}
+.err{grid-column:1 / -1;margin:0;color:#FFB4A8;font-size:15px}
+.perks{grid-column:1 / -1;margin:6px 0 0;padding:0;list-style:none;font-size:15px;opacity:.85}
+.perks li{padding:3px 0}
+
+/* questions */
+#faq{position:relative;z-index:2;padding:60px clamp(16px,6vw,96px) 100px;max-width:58rem}
+#faq h2{font-family:var(--display);font-weight:400;font-size:clamp(32px,3.6vw,48px);margin:0 0 20px}
+details{border-top:1px solid color-mix(in srgb,var(--ink) 25%,transparent);padding:16px 0}
+details:last-child{border-bottom:1px solid color-mix(in srgb,var(--ink) 25%,transparent)}
+summary{cursor:pointer;font-weight:600;font-size:18px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::after{content:'+';font-family:var(--display);font-size:24px;line-height:1}
+details[open] summary::after{content:'–'}
+details p{margin:10px 0 0;opacity:.85;max-width:44rem}
+
+footer{position:relative;z-index:2;padding:28px clamp(16px,6vw,96px);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;border-top:1px solid color-mix(in srgb,var(--ink) 20%,transparent)}
+footer b{color:var(--brass);font-weight:600}
+
+/* mobile */
+@media (max-width:820px){
+  body{font-size:17px}
+  nav{gap:14px;padding:14px 16px}
+  nav .lk{display:none}
+  .wa-btn{padding:8px 14px;font-size:14px}
+  .hero h1{transform:translateY(-14vh)}
+  .hero .tag{bottom:5vh;right:16px}
+  .hero .side{display:none}
+  .scene{padding:0 16px}
+  .copy,.col .copy{top:auto;position:sticky;top:54vh;max-width:none;background:color-mix(in srgb,var(--bg) 82%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-radius:18px;padding:20px;border:1px solid color-mix(in srgb,var(--ink) 18%,transparent)}
+  .copy.right{margin-left:0}
+  .copy h2{font-size:36px;margin-bottom:10px}
+  .copy p{font-size:17px}
+  .col .copy{grid-template-columns:1fr}
+  .price{grid-column:1;grid-row:auto;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:8px}
+  .price small{margin:0}
+  #commander{grid-template-columns:1fr;padding-top:90px}
+  form{grid-template-columns:1fr}
+  .choices{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){nav{transition:none}}
+</style>
+<script type="importmap">{"imports":{"three":"./js/three.module.min.js"}}</script>
+</head>
+<body>
+<div class="demo">Site de démonstration réalisé par <b>Landify DZ</b>. Marque, parfums et prix fictifs.</div>
+
+<nav id="nav" aria-label="Navigation principale">
+  <a class="logo" href="#top">Zahra <span lang="ar">زهرة</span></a>
+  <a class="lk" href="#flacon">Le flacon</a>
+  <a class="lk" href="#notes">Les notes</a>
+  <a class="lk" href="#collection">La collection</a>
+  <a class="wa-btn" href="#commander"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>Commander</a>
+</nav>
+
+<canvas id="gl" aria-hidden="true"></canvas>
+
+<header class="hero" id="top" data-k="0">
+  <h1 aria-label="Zahra">Zahra</h1>
+  <img class="fallback" src="img/flacon.png" alt="Flacon octogonal Zahra en verre, bouchon en laiton" width="422" height="839">
+  <div class="tag">
+    <p>Trois parfums composés à Alger, avec des matières d'ici.</p>
+    <small>Faites défiler pour découvrir le flacon</small>
+  </div>
+  <div class="side"><b lang="ar">ماء العطر</b>Eau de parfum, 50 et 100 ml</div>
+</header>
+
+<main>
+<section class="scene" id="flacon" data-k="1">
+  <div class="copy">
+    <p class="k">Le flacon</p>
+    <h2>Taillé comme un zellige</h2>
+    <p>Huit faces, un verre épais et une base lourde qui tient bien en main. La forme reprend l'étoile octogonale des carreaux de la Casbah.</p>
+    <div class="facts"><div><b>9 mm</b>de verre</div><div><b>8</b>faces taillées</div><div><b>420 g</b>plein</div></div>
+  </div>
+</section>
+
+<section class="scene" data-k="2">
+  <div class="copy right">
+    <p class="k">Le bouchon</p>
+    <h2>Du laiton massif, vissé</h2>
+    <p>Il ferme sans jeu et ne s'ouvre pas dans le sac. Dessous, un vaporisateur fin diffuse une brume régulière, sans gouttes.</p>
+  </div>
+</section>
+
+<section class="scene" id="notes" data-k="3">
+  <div class="copy">
+    <p class="k">Note de tête, les premières minutes</p>
+    <h2>Fleur d'oranger et bergamote</h2>
+    <p>Une ouverture fraîche et lumineuse, avec la fleur d'oranger distillée à Blida.</p>
+  </div>
+</section>
+
+<section class="scene" data-k="4">
+  <div class="copy">
+    <p class="k">Note de cœur, après une heure</p>
+    <h2>Rose et jasmin</h2>
+    <p>Le parfum s'arrondit. La rose apporte la douceur, le jasmin la tenue.</p>
+  </div>
+</section>
+
+<section class="scene" data-k="5">
+  <div class="copy">
+    <p class="k">Note de fond, jusqu'au soir</p>
+    <h2>Oud, ambre et musc</h2>
+    <p>Ce qui reste sur la peau et sur les vêtements. Tenue de 8 à 10 heures.</p>
+  </div>
+</section>
+
+<section class="scene short col" id="collection" data-k="6">
+  <div class="copy">
+    <h2>Néroli de Blida</h2>
+    <p>Frais et lumineux. Pour le jour, le travail, l'été.</p>
+    <div class="price"><small>50 ml</small><b>6 900 DA</b><a class="btn" href="#commander" data-pick="neroli">Choisir ce parfum</a></div>
+  </div>
+</section>
+
+<section class="scene short col" data-k="7">
+  <div class="copy">
+    <h2>Rose de la Casbah</h2>
+    <p>Floral et poudré. Pour les fêtes et les mariages.</p>
+    <div class="price"><small>50 ml</small><b>7 900 DA</b><a class="btn" href="#commander" data-pick="rose">Choisir ce parfum</a></div>
+  </div>
+</section>
+
+<section class="scene short col" data-k="8">
+  <div class="copy">
+    <h2>Oud du Hoggar</h2>
+    <p>Boisé et profond. Pour le soir et l'hiver.</p>
+    <div class="price"><small>50 ml</small><b>9 500 DA</b><a class="btn" href="#commander" data-pick="oud">Choisir ce parfum</a></div>
+  </div>
+</section>
+
+<section id="commander" data-k="9">
+  <div aria-hidden="true"></div>
+  <div class="order">
+    <h2>Commander</h2>
+    <p>Choisissez votre parfum, on confirme avec vous sur WhatsApp.</p>
+    <form id="form" novalidate>
+      <fieldset>
+        <legend>Parfum</legend>
+        <div class="choices">
+          <label><input type="radio" name="p" value="neroli" checked>Néroli de Blida<small>Frais</small></label>
+          <label><input type="radio" name="p" value="rose">Rose de la Casbah<small>Floral</small></label>
+          <label><input type="radio" name="p" value="oud">Oud du Hoggar<small>Boisé</small></label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Taille</legend>
+        <div class="choices two">
+          <label><input type="radio" name="t" value="50" checked>50 ml</label>
+          <label><input type="radio" name="t" value="100">100 ml</label>
+        </div>
+      </fieldset>
+      <div class="f"><label for="nom">Nom et prénom</label><input id="nom" autocomplete="name"></div>
+      <div class="f"><label for="tel">Téléphone</label><input id="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="05 xx xx xx xx"></div>
+      <div class="f full"><label for="wilaya">Wilaya</label><select id="wilaya"></select></div>
+      <div class="total"><span>Total, livraison comprise</span><b id="total">—</b></div>
+      <p class="err" id="err" hidden>Indiquez votre nom et votre numéro de téléphone.</p>
+      <button class="btn" type="submit"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.3-.8-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.2z"/></svg>Envoyer ma commande sur WhatsApp</button>
+      <ul class="perks">
+        <li>Livraison dans les 58 wilayas, paiement à la livraison.</li>
+        <li>Un échantillon de 2 ml offert avec chaque flacon.</li>
+      </ul>
+    </form>
+  </div>
+</section>
+
+<section id="faq">
+  <h2>Questions fréquentes</h2>
+  <details><summary>Combien de temps pour la livraison ?</summary><p>24 à 48 heures à Alger, 2 à 5 jours pour les autres wilayas. Vous payez au livreur à la réception.</p></details>
+  <details><summary>Je ne connais pas le parfum, je peux l'essayer ?</summary><p>Oui. Chaque commande contient un échantillon de 2 ml d'un autre parfum de la collection. Vous pouvez aussi commander le coffret découverte de 3 × 5 ml.</p></details>
+  <details><summary>Le flacon est-il rechargeable ?</summary><p>Oui. Le bouchon et le vaporisateur se dévissent. La recharge de 100 ml coûte 30 % de moins que le flacon.</p></details>
+  <details><summary>Vous faites des coffrets cadeaux ?</summary><p>Oui, pour les mariages, l'Aïd et les entreprises, avec un mot personnalisé. Écrivez-nous sur WhatsApp.</p></details>
+</section>
+</main>
+
+<footer>
+  <span>Maison Zahra, Alger. Marque fictive.</span>
+  <span>Site réalisé par <b>Landify DZ</b>. Devis gratuit : 0549 87 33 20</span>
+</footer>
+
+<script>
+/* ---------- formulaire (indépendant de la 3D) ---------- */
+const WA='213549873320';
+const PRICES={neroli:{50:6900,100:11500},rose:{50:7900,100:12900},oud:{50:9500,100:15500}};
+const NAMES={neroli:'Néroli de Blida',rose:'Rose de la Casbah',oud:'Oud du Hoggar'};
+const WILAYAS='Adrar,Chlef,Laghouat,Oum El Bouaghi,Batna,Béjaïa,Biskra,Béchar,Blida,Bouira,Tamanrasset,Tébessa,Tlemcen,Tiaret,Tizi Ouzou,Alger,Djelfa,Jijel,Sétif,Saïda,Skikda,Sidi Bel Abbès,Annaba,Guelma,Constantine,Médéa,Mostaganem,M\'Sila,Mascara,Ouargla,Oran,El Bayadh,Illizi,Bordj Bou Arréridj,Boumerdès,El Tarf,Tindouf,Tissemsilt,El Oued,Khenchela,Souk Ahras,Tipaza,Mila,Aïn Defla,Naâma,Aïn Témouchent,Ghardaïa,Relizane,Timimoun,Bordj Badji Mokhtar,Ouled Djellal,Béni Abbès,In Salah,In Guezzam,Touggourt,Djanet,El M\'Ghair,El Meniaa'.split(',');
+const sel=document.getElementById('wilaya');
+WILAYAS.forEach((w,i)=>{const o=document.createElement('option');o.value=w;o.textContent=String(i+1).padStart(2,'0')+' '+w;if(w==='Alger')o.selected=true;sel.appendChild(o)});
+const fmt=n=>n.toLocaleString('fr-FR').replace(/[\s  ]/g,' ')+' DA';
+const ship=()=>sel.value==='Alger'?400:700;
+const val=n=>document.querySelector(`input[name="${n}"]:checked`).value;
+function total(){const p=val('p'),t=val('t');const v=PRICES[p][t]+ship();document.getElementById('total').textContent=fmt(v);return v}
+document.getElementById('form').addEventListener('change',total);total();
+document.querySelectorAll('[data-pick]').forEach(a=>a.addEventListener('click',()=>{document.querySelector(`input[name="p"][value="${a.dataset.pick}"]`).checked=true;total()}));
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();
+  const nom=document.getElementById('nom').value.trim(),tel=document.getElementById('tel').value.trim(),err=document.getElementById('err');
+  if(!nom||!tel){err.hidden=false;(nom?document.getElementById('tel'):document.getElementById('nom')).focus();return}
+  err.hidden=true;const p=val('p'),t=val('t');
+  const msg=`Bonjour Maison Zahra, je souhaite commander :\n• ${NAMES[p]} ${t} ml\n• Nom : ${nom}\n• Téléphone : ${tel}\n• Wilaya : ${sel.value}\nTotal annoncé : ${fmt(total())}`;
+  window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank','noopener');
+});
+/* barre de navigation */
+const nav=document.getElementById('nav');addEventListener('scroll',()=>nav.classList.toggle('up',scrollY>30),{passive:true});
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from './js/RoomEnvironment.js';
+
+const canvas=document.getElementById('gl');
+let renderer;
+try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'})}
+catch(e){document.documentElement.classList.add('no-gl');throw e}
+const MOBILE=()=>innerWidth<=820;
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+renderer.setPixelRatio(Math.min(devicePixelRatio,MOBILE()?1.6:1.75));
+renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+
+const scene=new THREE.Scene();
+const pmrem=new THREE.PMREMGenerator(renderer);
+scene.environment=pmrem.fromScene(new RoomEnvironment(),0.04).texture;
+const camera=new THREE.PerspectiveCamera(35,innerWidth/innerHeight,0.1,100);
+const key=new THREE.DirectionalLight(0xfff1d6,2.2);key.position.set(3,5,4);scene.add(key);
+const rim=new THREE.DirectionalLight(0xbcd2ff,1.6);rim.position.set(-4,2,-3);scene.add(rim);
+scene.add(new THREE.AmbientLight(0xffffff,.25));
+
+/* ---------- matières ---------- */
+const brass=new THREE.MeshStandardMaterial({color:0xC9A45C,metalness:1,roughness:.26,flatShading:true});
+const silver=new THREE.MeshStandardMaterial({color:0xd8d8d8,metalness:1,roughness:.2});
+const LIQ={neroli:0xF0B23A,rose:0xD2566A,oud:0x6A2E12};
+
+/* ---------- étiquette gravée ---------- */
+function labelTex(name){
+  const c=document.createElement('canvas');c.width=512;c.height=256;const g=c.getContext('2d');
+  const gr=g.createLinearGradient(0,0,512,256);gr.addColorStop(0,'#E6C887');gr.addColorStop(.5,'#B98F45');gr.addColorStop(1,'#E1C07A');
+  g.fillStyle=gr;g.fillRect(0,0,512,256);
+  g.strokeStyle='rgba(60,40,10,.55)';g.lineWidth=4;g.strokeRect(14,14,484,228);
+  g.fillStyle='#3B2A10';g.textAlign='center';
+  g.font='86px Marcellus, "Times New Roman", serif';g.fillText('ZAHRA',256,128);
+  g.font='600 24px Figtree, Arial, sans-serif';g.fillText(name.toUpperCase(),256,178);
+  g.font='500 18px Figtree, Arial, sans-serif';g.fillText('EAU DE PARFUM · ALGER',256,210);
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;return t;
+}
+
+/* ---------- le flacon octogonal ---------- */
+const BODY=[[0,0],[.9,0],[1,.07],[1,1.7],[.97,1.88],[.84,2.02],[.6,2.12],[.34,2.16],[.32,2.3],[0,2.3]].map(p=>new THREE.Vector2(p[0],p[1]));
+const LIQP=[[0,.2],[.8,.2],[.84,.26],[.84,1.42],[.79,1.5],[0,1.5]].map(p=>new THREE.Vector2(p[0],p[1]));
+const APO=Math.cos(Math.PI/8);
+function makeBottle(kind,name){
+  const g=new THREE.Group();const inner=new THREE.Group();inner.position.y=-1.85;g.add(inner);
+  const glass=new THREE.MeshPhysicalMaterial({color:0xffffff,metalness:0,roughness:.04,transmission:1,thickness:1.1,ior:1.5,clearcoat:1,clearcoatRoughness:.05,attenuationColor:new THREE.Color(0xeaf4ff),attenuationDistance:6,flatShading:true,envMapIntensity:1.3});
+  const body=new THREE.Mesh(new THREE.LatheGeometry(BODY,8),glass);body.rotation.y=-Math.PI/8;inner.add(body);
+  const liqMat=new THREE.MeshPhysicalMaterial({color:LIQ[kind],roughness:.18,clearcoat:1,clearcoatRoughness:.1,emissive:LIQ[kind],emissiveIntensity:.18,flatShading:true});
+  const liq=new THREE.Mesh(new THREE.LatheGeometry(LIQP,8),liqMat);liq.rotation.y=-Math.PI/8;inner.add(liq);
+  const tube=new THREE.Mesh(new THREE.CylinderGeometry(.022,.022,2.1,8),silver);tube.position.y=1.3;inner.add(tube);
+  const collar=new THREE.Mesh(new THREE.CylinderGeometry(.4,.4,.16,8),brass);collar.rotation.y=Math.PI/8;collar.position.y=2.36;inner.add(collar);
+  const spray=new THREE.Mesh(new THREE.CylinderGeometry(.14,.16,.26,24),silver);spray.position.y=2.57;inner.add(spray);
+  const nozzle=new THREE.Mesh(new THREE.CylinderGeometry(.05,.05,.06,12),new THREE.MeshStandardMaterial({color:0x222222,roughness:.6}));nozzle.rotation.x=Math.PI/2;nozzle.position.set(0,2.62,.14);inner.add(nozzle);
+  // bouchon
+  const cap=new THREE.Group();cap.position.y=2.44;inner.add(cap);
+  const c1=new THREE.Mesh(new THREE.CylinderGeometry(.5,.56,.92,8),brass);c1.rotation.y=Math.PI/8;c1.position.y=.46;cap.add(c1);
+  const c2=new THREE.Mesh(new THREE.CylinderGeometry(.24,.5,.22,8),brass);c2.rotation.y=Math.PI/8;c2.position.y=1.03;cap.add(c2);
+  const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.17,0),new THREE.MeshPhysicalMaterial({color:LIQ[kind],roughness:.05,metalness:.2,clearcoat:1,flatShading:true}));gem.position.y=1.22;gem.scale.y=1.3;cap.add(gem);
+  // plaque
+  const lblMat=new THREE.MeshStandardMaterial({map:labelTex(name),metalness:.55,roughness:.35});const plate=new THREE.Mesh(new THREE.BoxGeometry(.98,.48,.03),[brass,brass,brass,brass,lblMat,brass]);
+  plate.position.set(0,.95,APO+.02);inner.add(plate);
+  g.userData={cap,liqMat,gem,plate,lblMat};
+  return g;
+}
+const bottles=[makeBottle('neroli','Néroli de Blida'),makeBottle('rose','Rose de la Casbah'),makeBottle('oud','Oud du Hoggar')];
+bottles.forEach(b=>scene.add(b));
+
+/* ---------- poussière dorée ---------- */
+const dustTex=(()=>{const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');const r=g.createRadialGradient(32,32,0,32,32,32);r.addColorStop(0,'rgba(255,235,190,1)');r.addColorStop(.35,'rgba(255,215,140,.6)');r.addColorStop(1,'rgba(255,200,120,0)');g.fillStyle=r;g.fillRect(0,0,64,64);return new THREE.CanvasTexture(c)})();
+const DN=MOBILE()?260:520,dpos=new Float32Array(DN*3),dsp=new Float32Array(DN);
+for(let i=0;i<DN;i++){dpos[i*3]=(Math.random()-.5)*14;dpos[i*3+1]=(Math.random()-.5)*9;dpos[i*3+2]=(Math.random()-.5)*8-1;dsp[i]=.1+Math.random()*.3}
+const dgeo=new THREE.BufferGeometry();dgeo.setAttribute('position',new THREE.BufferAttribute(dpos,3));
+const dust=new THREE.Points(dgeo,new THREE.PointsMaterial({size:.07,map:dustTex,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,opacity:.8}));
+scene.add(dust);
+
+/* ---------- les matières premières (notes) ---------- */
+function sliceTex(peel,flesh){const c=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d');
+  g.fillStyle=peel;g.beginPath();g.arc(128,128,128,0,7);g.fill();g.fillStyle='#FFF4D6';g.beginPath();g.arc(128,128,112,0,7);g.fill();
+  for(let i=0;i<10;i++){const a=i/10*Math.PI*2;g.fillStyle=flesh;g.beginPath();g.moveTo(128+Math.cos(a+.05)*12,128+Math.sin(a+.05)*12);g.arc(128,128,104,a+.06,a+Math.PI/5-.06);g.closePath();g.fill()}
+  g.fillStyle='rgba(255,255,255,.35)';for(let i=0;i<60;i++){g.beginPath();g.arc(128+(Math.random()-.5)*190,128+(Math.random()-.5)*190,2+Math.random()*3,0,7);g.fill()}
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
+function woodTex(){const c=document.createElement('canvas');c.width=256;c.height=64;const g=c.getContext('2d');g.fillStyle='#4A2615';g.fillRect(0,0,256,64);
+  for(let i=0;i<40;i++){g.strokeStyle=`rgba(${120+Math.random()*60|0},${60+Math.random()*30|0},20,.5)`;g.lineWidth=1+Math.random()*2;g.beginPath();const y=Math.random()*64;g.moveTo(0,y);g.bezierCurveTo(80,y+(Math.random()-.5)*14,170,y+(Math.random()-.5)*14,256,y);g.stroke()}
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
+const petalGeo=(()=>{const s=new THREE.Shape();s.moveTo(0,0);s.bezierCurveTo(.22,.1,.26,.42,0,.6);s.bezierCurveTo(-.26,.42,-.22,.1,0,0);
+  const g=new THREE.ShapeGeometry(s,14);const p=g.attributes.position;for(let i=0;i<p.count;i++){const x=p.getX(i),y=p.getY(i);p.setZ(i,-1.6*x*x-.35*y*y)}g.computeVertexNormals();g.translate(0,-.3,0);return g})();
+function rnd(a,b){return a+Math.random()*(b-a)}
+function makeNotes(kind){
+  const grp=new THREE.Group();const N=MOBILE()?10:15;const items=[];
+  const orangeTop=new THREE.MeshPhysicalMaterial({map:sliceTex('#E77B12','#F59A1E'),roughness:.4,clearcoat:.6});
+  const bergTop=new THREE.MeshPhysicalMaterial({map:sliceTex('#9DB52E','#E8D56A'),roughness:.4,clearcoat:.6});
+  const peel=new THREE.MeshStandardMaterial({color:0xE07A14,roughness:.6}),peel2=new THREE.MeshStandardMaterial({color:0x9DB52E,roughness:.6});
+  const rose=new THREE.MeshPhysicalMaterial({color:0xD9566E,roughness:.55,sheen:1,sheenColor:new THREE.Color(0xffc4d0),side:THREE.DoubleSide});
+  const jas=new THREE.MeshPhysicalMaterial({color:0xFFF3E2,roughness:.6,sheen:1,sheenColor:new THREE.Color(0xffffff),side:THREE.DoubleSide});
+  const wood=new THREE.MeshStandardMaterial({map:woodTex(),roughness:.75});
+  const amber=new THREE.MeshPhysicalMaterial({color:0xE58A1F,emissive:0x7a3300,emissiveIntensity:.35,roughness:.12,clearcoat:1,flatShading:true});
+  for(let i=0;i<N;i++){let m;
+    if(kind==='t'){const b=i%3===2;m=new THREE.Mesh(new THREE.CylinderGeometry(.34,.34,.07,40),[b?peel2:peel,b?bergTop:orangeTop,b?bergTop:orangeTop]);m.scale.setScalar(rnd(.7,1.15))}
+    else if(kind==='c'){m=new THREE.Mesh(petalGeo,i%3===2?jas:rose);m.scale.setScalar(rnd(.9,1.5))}
+    else{m=i%3===2?new THREE.Mesh(new THREE.IcosahedronGeometry(.17,0),amber):new THREE.Mesh(new THREE.BoxGeometry(.62,.1,.16),wood);m.scale.multiplyScalar(rnd(.8,1.3))}
+    const a=i/N*Math.PI*2+rnd(-.2,.2),r=rnd(1.75,2.7);let x=Math.sin(a)*r,z=Math.cos(a)*r-.3;
+    if(z>.2&&Math.abs(x)<1.25)x=Math.sign(x||1)*rnd(1.3,1.8);
+    const it={m,home:new THREE.Vector3(x,rnd(-1.5,1.6),z),base:m.scale.clone(),rs:new THREE.Vector3(rnd(-.8,.8),rnd(-.8,.8),rnd(-.5,.5)),ph:rnd(0,6)};
+    m.rotation.set(rnd(0,6),rnd(0,6),rnd(0,6));grp.add(m);items.push(it)}
+  grp.userData.items=items;scene.add(grp);return grp}
+const notes={t:makeNotes('t'),c:makeNotes('c'),f:makeNotes('f')};
+
+/* ---------- images clés du défilement ---------- */
+// b: [x,y,z,rotY,rotX,échelle]  cap: ouverture  nt/nc/nf: notes  col: collection  hi: parfum mis en avant
+const P=Math.PI;
+const KF=[
+ {b:[0,-.15,0,0,.06,0.82],cap:0,nt:0,nc:0,nf:0,col:0,hi:0,cam:[0,.25,7.6],bg:'#14213D',ink:'#F3E9D8'},
+ {b:[1.7,-.05,0,P*.85,.16,0.886],cap:0,nt:0,nc:0,nf:0,col:0,hi:0,cam:[0,.25,7.6],bg:'#14213D',ink:'#F3E9D8'},
+ {b:[-1.75,-.3,0,P*1.6,-.05,0.78],cap:1,nt:0,nc:0,nf:0,col:0,hi:0,cam:[0,.35,7.2],bg:'#1C2E52',ink:'#F3E9D8'},
+ {b:[1.55,-.2,0,P*2,.05,0.754],cap:0,nt:1,nc:0,nf:0,col:0,hi:0,cam:[0,.25,7.8],bg:'#E39D36',ink:'#2A1607'},
+ {b:[1.55,-.2,0,P*2.5,.05,0.754],cap:0,nt:0,nc:1,nf:0,col:0,hi:0,cam:[0,.25,7.8],bg:'#D3858D',ink:'#34121A'},
+ {b:[1.55,-.2,0,P*3,.05,0.754],cap:0,nt:0,nc:0,nf:1,col:0,hi:0,cam:[0,.25,7.8],bg:'#2E1D16',ink:'#F2DEC4'},
+ {b:[0,0,0,P*4,0,0.656],cap:0,nt:0,nc:0,nf:0,col:1,hi:0,cam:[0,.1,8.6],bg:'#E6AE47',ink:'#2A1607'},
+ {b:[0,0,0,P*4,0,0.656],cap:0,nt:0,nc:0,nf:0,col:1,hi:1,cam:[0,.1,8.6],bg:'#C97C86',ink:'#34121A'},
+ {b:[0,0,0,P*4,0,0.656],cap:0,nt:0,nc:0,nf:0,col:1,hi:2,cam:[0,.1,8.6],bg:'#3B241A',ink:'#F2DEC4'},
+ {b:[-2.05,-.1,0,P*4.25,.08,0.82],cap:0,nt:0,nc:0,nf:0,col:0,hi:2,cam:[0,.25,7.6],bg:'#14213D',ink:'#F3E9D8'}
+];
+const NUM=['cap','nt','nc','nf','col','hi'];
+const ease=t=>t*t*t*(t*(t*6-15)+10);
+const cA=new THREE.Color(),cB=new THREE.Color();
+function stateAt(s){
+  const i=Math.max(0,Math.min(KF.length-1,Math.floor(s))),j=Math.min(KF.length-1,i+1),t=ease(Math.min(1,Math.max(0,s-i)));
+  const A=KF[i],B=KF[j],o={};
+  o.b=A.b.map((v,k)=>v+(B.b[k]-v)*t);o.cam=A.cam.map((v,k)=>v+(B.cam[k]-v)*t);
+  NUM.forEach(k=>o[k]=A[k]+(B[k]-A[k])*t);
+  o.bg='#'+cA.set(A.bg).lerp(cB.set(B.bg),t).getHexString();o.ink='#'+cA.set(A.ink).lerp(cB.set(B.ink),t).getHexString();
+  return o;
+}
+
+/* ---------- défilement → position dans l'histoire ---------- */
+let anchors=[];
+function measure(){
+  const vh=innerHeight,max=document.documentElement.scrollHeight-vh;
+  anchors=[...document.querySelectorAll('[data-k]')].map(el=>{const r=el.getBoundingClientRect(),top=r.top+scrollY;
+    const k=+el.dataset.k;let a=k===0?0:top+r.height/2-vh/2;if(el.id==='commander')a=top;return Math.min(Math.max(a,0),max)});
+}
+function targetS(){
+  const y=scrollY;if(y<=anchors[0])return 0;
+  for(let i=0;i<anchors.length-1;i++){if(y<anchors[i+1]){const d=anchors[i+1]-anchors[i];return i+(d>0?(y-anchors[i])/d:1)}}
+  return anchors.length-1;
+}
+
+function resize(){renderer.setSize(innerWidth,innerHeight,false);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();measure()}
+addEventListener('resize',resize);addEventListener('load',measure);resize();
+new ResizeObserver(measure).observe(document.body);
+
+/* ---------- souris ---------- */
+const mouse={x:0,y:0,tx:0,ty:0};
+addEventListener('pointermove',e=>{mouse.tx=(e.clientX/innerWidth-.5);mouse.ty=(e.clientY/innerHeight-.5)},{passive:true});
+
+/* ---------- boucle ---------- */
+let S=targetS(),last=performance.now(),time=0;
+const root=document.documentElement.style;let lastBg='';
+function frame(now){
+  const dt=Math.min(.05,(now-last)/1000);last=now;time+=dt;
+  S+=(targetS()-S)*(1-Math.exp(-dt*(REDUCED?20:5.5)));
+  const st=stateAt(S),mob=MOBILE();
+  mouse.x+=(mouse.tx-mouse.x)*.05;mouse.y+=(mouse.ty-mouse.y)*.05;
+  if(st.bg!==lastBg){root.setProperty('--bg',st.bg);root.setProperty('--ink',st.ink);lastBg=st.bg;
+    const tc=document.querySelector('meta[name=theme-color]');if(tc)tc.content=st.bg}
+
+  // caméra
+  const cz=st.cam[2]+(mob?3.6:0);
+  camera.position.set(st.cam[0]+mouse.x*.35,st.cam[1]-mouse.y*.25,cz);camera.lookAt(0,mob?1:0,0);
+
+  // flacon principal
+  let [bx,by,bz,ry,rx,sc]=st.b;
+  if(mob){bx=0;by=by*.4+2.05;sc*=.8;if(S>8.3){by+=(S-8.3)*7}}
+  const idle=REDUCED?0:time*.22*Math.max(0,1-S);
+  // collection : position de chaque flacon
+  const hi=st.hi,col=st.col;
+  bottles.forEach((b,i)=>{
+    const w=Math.max(0,1-Math.abs(i-hi));
+    const cx=mob?(i-hi)*2.35:(i-1)*2.45,cy=mob?2.05:.5,cz2=w*.5;
+    const cs=(mob?.64:.66)*(.88+.22*w);
+    const cry=P*4+(REDUCED?0:time*.35)*w+(1-w)*(i<hi?.5:-.5);
+    if(i===0){
+      b.position.set(bx+(cx-bx)*col,by+(cy-by)*col,bz+(cz2-bz)*col);
+      b.rotation.set(rx*(1-col),ry+idle+(cry-ry)*col,0);
+      b.scale.setScalar(sc+(cs-sc)*col);
+      b.visible=true;
+    }else{
+      const enter=col;b.visible=enter>.002;const out=1-enter;
+      if(mob||i===2)b.position.set(cx+3.6*out,cy,cz2);else b.position.set(cx,cy-4*out,cz2);
+      b.rotation.set(0,cry,0);b.scale.setScalar(cs*Math.min(1,enter*1.4));
+    }
+    // ouverture du bouchon
+    const cap=b.userData.cap,o=i===0?st.cap:0;
+    cap.position.y=2.44+o*1.0;cap.rotation.set(0,o*P*.9,o*.28);cap.position.x=o*.35;
+  });
+
+  // notes autour du flacon
+  const center=bottles[0].position;
+  [['t',st.nt],['c',st.nc],['f',st.nf]].forEach(([k,v])=>{const g=notes[k];g.visible=v>.01;if(!g.visible)return;
+    g.position.copy(center);g.scale.setScalar(mob?.78:1);
+    g.userData.items.forEach(it=>{const spread=1+(1-v)*1.6;
+      it.m.position.set(it.home.x*spread,it.home.y*spread+Math.sin(time*.8+it.ph)*.12,it.home.z*spread);
+      it.m.rotation.x+=it.rs.x*dt;it.m.rotation.y+=it.rs.y*dt;it.m.rotation.z+=it.rs.z*dt;
+      it.m.scale.copy(it.base).multiplyScalar(Math.max(.001,v))})});
+
+  // poussière
+  const p=dgeo.attributes.position;
+  for(let i=0;i<DN;i++){let y=p.getY(i)+dsp[i]*dt*(REDUCED?0:1);if(y>4.5)y=-4.5;p.setY(i,y)}
+  p.needsUpdate=true;dust.rotation.y=S*.15;
+
+  renderer.render(scene,camera);
+  requestAnimationFrame(frame);
+}
+const LBL=['Néroli de Blida','Rose de la Casbah','Oud du Hoggar'];
+document.fonts.ready.then(()=>bottles.forEach((b,i)=>{const m=b.userData.lblMat;m.map.dispose();m.map=labelTex(LBL[i]);m.needsUpdate=true}));
+requestAnimationFrame(frame);
+window.__zahra={stateAt,get S(){return S},jump(v){S=v}};
+</script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body>
+<title>Cabinet Médical Nour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Layout: site de cabinet — hero avec carte horaires en direct, services en grille, formulaire de rendez-vous, infos pratiques */
+:root{
+  --bg:#F5FAF8; --surface:#FFFFFF; --ink:#11302E; --muted:#4F6966;
+  --accent:#0E5A55; --accent-soft:#DDEFEA; --line:#D3E4DF; --warm:#B85F1E;
+  --open:#1F7A4C; --closed:#A33A2C;
+  --display:'Lexend', 'Segoe UI', Arial, sans-serif;
+  --body:'Source Sans 3', 'Segoe UI', Arial, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.55;margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--warm);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:24px}
+.demo{background:var(--ink);color:#F5FAF8;font-size:13px;text-align:center;padding:8px 16px}
+header{background:var(--surface);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:16px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.mark{width:42px;height:42px;border-radius:12px;background:var(--accent);display:grid;place-items:center}
+.logo b{font-family:var(--display);font-weight:600;font-size:20px;display:block;line-height:1.1}
+.logo small{color:var(--muted);font-size:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 24px;border-radius:12px;background:var(--accent);color:#FFFFFF;font:600 16px var(--display);text-decoration:none;border:0;cursor:pointer}
+.btn:hover{background:#0A4743}
+.btn.light{background:var(--accent-soft);color:var(--accent)}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding-block:56px}
+.eyebrow{font-family:var(--display);font-size:14px;font-weight:500;color:var(--accent);background:var(--accent-soft);display:inline-block;padding:6px 12px;border-radius:999px;margin:0 0 18px}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(36px,5.5vw,60px);line-height:1.06;letter-spacing:-.02em;margin:0 0 18px;text-wrap:balance}
+.lead{color:var(--muted);font-size:20px;max-width:50ch;margin:0 0 28px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.hero-side{display:flex;flex-direction:column;min-width:0}
+.doc{margin:0;aspect-ratio:4/5;max-width:100%;border-radius:24px;overflow:hidden;background:var(--accent-soft)}
+.doc img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.hours{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 24px;margin-top:32px;max-width:460px;box-shadow:0 14px 30px rgba(17,48,46,.08)}
+.room{margin:0 0 28px;position:relative;border-radius:18px;overflow:hidden;aspect-ratio:3/1;max-width:100%}
+.room img{width:100%;height:100%;object-fit:cover;display:block}
+.room figcaption{position:absolute;left:16px;bottom:16px;background:var(--surface);color:var(--ink);font-weight:600;font-size:15px;padding:8px 14px;border-radius:999px}
+.status{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:18px;margin-bottom:16px}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--open)}
+.status.closed .dot{background:var(--closed)}
+.status.closed{color:var(--closed)} .status.open{color:var(--open)}
+.hours table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.hours td{padding:9px 0;border-top:1px solid var(--line)}
+.hours td:last-child{text-align:right;color:var(--muted)}
+.hours tr.today td{font-weight:600;color:var(--ink)}
+.note{font-size:15px;color:var(--muted);margin:14px 0 0}
+section{padding-block:64px}
+h2{font-family:var(--display);font-weight:600;font-size:clamp(28px,3.6vw,40px);letter-spacing:-.01em;margin:0 0 10px}
+.sub{color:var(--muted);margin:0 0 32px;max-width:60ch}
+.services{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.svc{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:8px}
+.svc svg{width:30px;height:30px;stroke:var(--accent)}
+.svc h3{font-family:var(--display);font-weight:500;font-size:19px;margin:6px 0 0}
+.svc p{margin:0;color:var(--muted);font-size:16px}
+.booking{background:var(--accent);color:#FFFFFF}
+.booking h2{color:#FFFFFF}
+.booking .sub{color:#CFE7E2}
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+form{background:var(--surface);color:var(--ink);border-radius:18px;padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field.full{grid-column:1/-1}
+label,.legend{font-weight:600;font-size:15px}
+input,select{font:inherit;font-size:17px;min-height:48px;padding:0 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%}
+input:focus,select:focus{border-color:var(--accent)}
+fieldset{border:0;margin:0;padding:0;grid-column:1/-1;display:flex;flex-direction:column;gap:8px}
+.slots{display:flex;gap:10px;flex-wrap:wrap}
+.slots label{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:10px;padding:0 16px;min-height:48px;font-weight:500;cursor:pointer}
+.slots input{width:auto;min-height:0}
+.err{color:var(--closed);font-size:15px;margin:0;grid-column:1/-1}
+form .btn{grid-column:1/-1}
+.result{background:#0A4743;border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:14px}
+.result h3{font-family:var(--display);font-weight:500;margin:0;font-size:20px}
+.result dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:16px}
+.result dt{color:#A9D2CA}
+.result dd{margin:0}
+.result .btn{background:#FFFFFF;color:var(--accent)}
+.points{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:14px}
+.points li{display:flex;gap:12px}
+.points svg{flex-shrink:0;width:24px;height:24px;stroke:#A9D2CA}
+.info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.info div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px}
+.info h3{font-family:var(--display);font-weight:500;font-size:18px;margin:0 0 8px}
+.info p{margin:0;color:var(--muted)}
+.urgent{border-color:#E7C3BC !important;background:#FBF1EF !important}
+.urgent h3{color:var(--closed)}
+footer{border-top:1px solid var(--line);padding-block:28px;font-size:15px;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+@media (max-width:900px){
+  .doc{max-height:520px}
+  .room{aspect-ratio:2/1}
+  .hero,.book-grid{grid-template-columns:1fr}
+  .services,.info{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:600px){
+  .wrap{padding-inline:16px}
+  .services,.info{grid-template-columns:1fr}
+  form{grid-template-columns:1fr;padding:20px}
+  .logo small{display:none}
+  section{padding-block:48px}
+}
+</style>
+
+<div class="demo">Site de démonstration réalisé par <strong>Landify DZ</strong> · Cabinet et coordonnées fictifs</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top">
+      <span class="mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"><path d="M12 4v16M4 12h16"/></svg></span>
+      <span><b>Cabinet Médical Nour</b><small>Médecine générale · Alger</small></span>
+    </a>
+    <a class="btn" href="#rdv">Prendre rendez-vous</a>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <p class="eyebrow">Dr [Nom du médecin] · Médecin généraliste</p>
+      <h1>Votre médecin de famille, sans attente inutile.</h1>
+      <p class="lead">Demandez votre rendez-vous en ligne en une minute. Le cabinet vous confirme l'heure exacte par WhatsApp.</p>
+      <div class="cta">
+        <a class="btn" href="#rdv">Demander un rendez-vous</a>
+        <a class="btn light" href="#services">Nos consultations</a>
+      </div>
+      <aside class="hours" aria-label="Horaires du cabinet">
+      <div class="status" id="status"><span class="dot"></span><span id="status-text">Horaires</span></div>
+      <table>
+        <tbody id="hours-body"></tbody>
+      </table>
+      <p class="note">Consultations sur rendez-vous et sans rendez-vous le matin.</p>
+    </aside>
+    </div>
+    <div class="hero-side">
+    <figure class="doc"><img src="img/nour-doctor.jpg" alt="Médecin du cabinet en tenue médicale" width="900" height="1125"></figure>
+    </div>
+  </div>
+
+  <section id="services">
+    <div class="wrap">
+      <h2>Nos consultations</h2>
+      <p class="sub">Une prise en charge complète pour toute la famille, de l'enfant à la personne âgée.</p>
+      <div class="services">
+        <div class="svc"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a6 6 0 0 0 12 0V3"/><circle cx="18" cy="17" r="3"/><path d="M12 15v1a5 5 0 0 0 5 5"/></svg><h3>Consultation générale</h3><p>Diagnostic, traitement et orientation vers un spécialiste si besoin.</p></div>
+        <div class="svc"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg><h3>Électrocardiogramme</h3><p>ECG réalisé au cabinet, avec interprétation immédiate.</p></div>
+        <div class="svc"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><h3>Suivi des maladies chroniques</h3><p>Diabète, tension artérielle, cholestérol : suivi régulier et bilans.</p></div>
+        <div class="svc"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3"/><path d="M6 21v-2a6 6 0 0 1 12 0v2"/></svg><h3>Suivi des enfants</h3><p>Croissance, vaccins du carnet de santé, maladies courantes.</p></div>
+        <div class="svc"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3l7 7-11 11H3v-7z"/><path d="M11 6l7 7"/></svg><h3>Petits soins</h3><p>Pansements, injections, points de suture simples.</p></div>
+        <div class="svc"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 15l2 2 4-4"/></svg><h3>Certificats médicaux</h3><p>Aptitude au sport, au travail, certificats scolaires.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="booking" id="rdv">
+    <div class="wrap book-grid">
+      <div>
+        <h2>Demander un rendez-vous</h2>
+        <p class="sub">Remplissez le formulaire : votre demande est préparée dans WhatsApp, il vous suffit de l'envoyer.</p>
+        <div id="result-zone">
+          <ul class="points">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Réponse du cabinet le jour même</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Rappel la veille de votre rendez-vous</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Annulation possible par simple message</li>
+          </ul>
+        </div>
+      </div>
+      <form id="form" novalidate>
+        <div class="field"><label for="nom">Nom et prénom</label><input id="nom" autocomplete="name" value="Samira Benali"></div>
+        <div class="field"><label for="tel">Téléphone</label><input id="tel" type="tel" inputmode="tel" autocomplete="tel" value="0555 12 34 56"></div>
+        <div class="field full"><label for="motif">Motif de la consultation</label>
+          <select id="motif">
+            <option>Consultation générale</option>
+            <option>Électrocardiogramme</option>
+            <option>Suivi maladie chronique</option>
+            <option>Suivi enfant / vaccin</option>
+            <option>Petits soins</option>
+            <option>Certificat médical</option>
+          </select>
+        </div>
+        <div class="field full"><label for="date">Date souhaitée</label><input id="date" type="date"></div>
+        <fieldset>
+          <span class="legend">Créneau préféré</span>
+          <div class="slots">
+            <label><input type="radio" name="slot" id="slot-am" value="Matin" checked> Matin</label>
+            <label><input type="radio" name="slot" id="slot-pm" value="Après-midi"> Après-midi</label>
+          </div>
+        </fieldset>
+        <p class="err" id="err" hidden></p>
+        <button class="btn" type="submit">Préparer ma demande</button>
+      </form>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Infos pratiques</h2>
+      <p class="sub">Le cabinet est facile d'accès, avec stationnement à proximité.</p>
+      <figure class="room"><img src="img/nour-salle.jpg" alt="Salle de soins du cabinet" loading="lazy" width="1200" height="800"><figcaption>Salle de soins équipée</figcaption></figure>
+      <div class="info">
+        <div><h3>Adresse</h3><p>[Adresse du cabinet]<br>Alger</p></div>
+        <div><h3>Contact</h3><p>WhatsApp et téléphone :<br><strong id="num-text">+213 549 87 33 20</strong></p></div>
+        <div class="urgent"><h3>En cas d'urgence</h3><p>Ne prenez pas rendez-vous : appelez la Protection civile au <strong>14</strong>.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="wrap">
+  <footer>
+    <span>Cabinet Médical Nour · Médecine générale</span>
+    <span>Site réalisé par <strong>Landify DZ</strong></span>
+  </footer>
+</div>
+
+<script>
+const WA_NUMBER = "213549873320";
+const days = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
+const schedule = {6:[8.5,17],0:[8.5,17],1:[8.5,17],2:[8.5,17],3:[8.5,17],4:[8.5,12.5],5:null};
+const order = [6,0,1,2,3,4,5];
+const hh = (h) => { const m = Math.round((h%1)*60); return Math.floor(h) + "h" + (m ? String(m).padStart(2,"0") : "00"); };
+
+function algiersNow(){
+  const parts = new Intl.DateTimeFormat("en-GB",{timeZone:"Africa/Algiers",weekday:"short",hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(new Date());
+  const get = (t) => parts.find(p => p.type === t).value;
+  const wd = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(get("weekday"));
+  return {day: wd, hour: Number(get("hour")) + Number(get("minute"))/60};
+}
+
+const now = algiersNow();
+document.getElementById("hours-body").innerHTML = order.map(d => {
+  const s = schedule[d];
+  return `<tr class="${d===now.day?"today":""}"><td>${days[d]}</td><td>${s ? hh(s[0]) + " – " + hh(s[1]) : "Fermé"}</td></tr>`;
+}).join("");
+const today = schedule[now.day];
+const isOpen = today && now.hour >= today[0] && now.hour < today[1];
+const st = document.getElementById("status");
+st.classList.add(isOpen ? "open" : "closed");
+document.getElementById("status-text").textContent = isOpen ? "Ouvert maintenant" : "Fermé en ce moment";
+
+const dateInput = document.getElementById("date");
+const iso = (d) => d.toISOString().slice(0,10);
+const start = new Date(); start.setDate(start.getDate() + 1);
+if (start.getDay() === 5) start.setDate(start.getDate() + 1);
+dateInput.min = iso(new Date());
+dateInput.value = iso(start);
+
+const form = document.getElementById("form");
+const err = document.getElementById("err");
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const nom = document.getElementById("nom").value.trim();
+  const tel = document.getElementById("tel").value.trim();
+  const motif = document.getElementById("motif").value;
+  const date = dateInput.value;
+  const slot = form.querySelector('input[name="slot"]:checked').value;
+  const problems = [];
+  if (!nom) problems.push("indiquez votre nom");
+  if (!tel) problems.push("indiquez votre téléphone");
+  if (!date) problems.push("choisissez une date");
+  const d = date ? new Date(date + "T12:00:00") : null;
+  if (d && d.getDay() === 5) problems.push("le cabinet est fermé le vendredi, choisissez un autre jour");
+  if (d && d.getDay() === 4 && slot === "Après-midi") problems.push("le jeudi, le cabinet ferme à 12h30 : choisissez le matin");
+  if (problems.length){ err.textContent = "Pour continuer, " + problems.join(" et ") + "."; err.hidden = false; return; }
+  err.hidden = true;
+  const dateFr = d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
+  const msg = `Bonjour, je souhaite prendre rendez-vous au Cabinet Médical Nour.\nNom : ${nom}\nTéléphone : ${tel}\nMotif : ${motif}\nDate souhaitée : ${dateFr} (${slot.toLowerCase()})`;
+  const link = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg);
+  const zone = document.getElementById("result-zone");
+  zone.innerHTML = `<div class="result" role="status">
+    <h3>Votre demande est prête</h3>
+    <dl><dt>Patient</dt><dd></dd><dt>Motif</dt><dd></dd><dt>Date</dt><dd></dd></dl>
+    <a class="btn" target="_blank" rel="noopener">Envoyer sur WhatsApp</a>
+    <p style="margin:0;font-size:15px;color:#CFE7E2">Le cabinet vous répondra pour confirmer l'heure exacte.</p>
+  </div>`;
+  const dd = zone.querySelectorAll("dd");
+  dd[0].textContent = nom; dd[1].textContent = motif; dd[2].textContent = dateFr + ", " + slot.toLowerCase();
+  zone.querySelector("a").href = link;
+  zone.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block:"nearest"});
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body>
+<title>AgriSense Serre B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: application web — barre latérale, résumé d'état, tuiles capteurs avec sparklines, graphique 24 h, commandes à distance, seuils, journal d'alertes */
+:root{
+  --bg:#EEF2EE; --surface:#FFFFFF; --ink:#15211A; --muted:#5B6A60; --line:#DCE4DD;
+  --leaf:#2F7D4A; --leaf-soft:#E2F0E6; --water:#2D6CB0; --sun:#B7791F; --crit:#B83A2E; --crit-soft:#F8E6E3; --warn-soft:#FBF0DC;
+  --side:#15211A;
+  --ui:'Manrope', 'Segoe UI', Arial, sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, Consolas, monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:15px;line-height:1.5;margin:0}
+:focus-visible{outline:3px solid var(--water);outline-offset:2px}
+.demo{background:var(--side);color:#DDE7DF;font-size:13px;text-align:center;padding:8px 16px;border-bottom:1px solid #2A3A30}
+.app{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:calc(100% - 37px)}
+aside{background:var(--side);color:#C9D6CC;padding:22px 16px;display:flex;flex-direction:column;gap:22px}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;font-weight:800;font-size:18px;padding:0 8px}
+.brand svg{width:30px;height:30px}
+nav{display:flex;flex-direction:column;gap:4px}
+nav a{display:flex;align-items:center;gap:10px;color:#C9D6CC;text-decoration:none;padding:10px 12px;border-radius:8px;font-weight:600;min-height:44px}
+nav a svg{width:18px;height:18px;stroke:currentColor}
+nav a[aria-current="page"]{background:#24362A;color:#fff}
+nav a:hover{color:#fff}
+.site{margin-top:auto;font-size:13px;padding:12px;border:1px solid #2A3A30;border-radius:10px}
+.site b{display:block;color:#fff;font-size:14px}
+main{padding:24px 28px 40px;display:flex;flex-direction:column;gap:20px;min-width:0}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px}
+h1{font-size:26px;font-weight:800;margin:0;letter-spacing:-.01em}
+.top p{margin:2px 0 0;color:var(--muted)}
+.live{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-weight:600;font-size:14px}
+.live i{width:9px;height:9px;border-radius:50%;background:var(--leaf);box-shadow:0 0 0 4px var(--leaf-soft)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.banner{display:flex;align-items:center;gap:12px;background:var(--warn-soft);border:1px solid #EBCF9C;border-radius:12px;padding:12px 16px;font-weight:600}
+.banner svg{flex-shrink:0;width:20px;height:20px;stroke:var(--sun)}
+.banner.ok{background:var(--leaf-soft);border-color:#BFDDC8}
+.banner.ok svg{stroke:var(--leaf)}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 16px 10px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.tile .lbl{color:var(--muted);font-weight:600;font-size:13px;display:flex;justify-content:space-between;gap:8px}
+.chip{font-size:12px;font-weight:700;border-radius:999px;padding:1px 8px}
+.chip.ok{background:var(--leaf-soft);color:var(--leaf)}
+.chip.warn{background:var(--warn-soft);color:#8A5A12}
+.chip.crit{background:var(--crit-soft);color:var(--crit)}
+.tile .val{font-family:var(--mono);font-weight:600;font-size:30px;line-height:1.1}
+.tile .val small{font-size:15px;color:var(--muted);margin-left:2px}
+.tile svg{width:100%;height:40px;display:block}
+.grid2{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0}
+.card h2{font-size:16px;font-weight:800;margin:0}
+.card-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.legend{display:flex;gap:14px;font-size:13px;color:var(--muted);font-weight:600}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:3px;border-radius:2px;display:inline-block}
+.seg{display:inline-flex;background:var(--bg);border-radius:8px;padding:3px}
+.seg button{border:0;background:transparent;font:600 13px var(--ui);color:var(--muted);padding:6px 12px;border-radius:6px;min-height:34px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.chart-wrap{overflow-x:auto}
+#chart{width:100%;min-width:480px;height:auto;display:block}
+.ctrl{display:flex;flex-direction:column;gap:2px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.row b{display:block;font-size:15px}
+.row span{color:var(--muted);font-size:13px}
+.switch{position:relative;width:52px;height:30px;flex-shrink:0;border-radius:999px;border:0;background:#C9D3CC;cursor:pointer;padding:0}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .15s}
+.switch[aria-checked="true"]{background:var(--leaf)}
+.switch[aria-checked="true"]::after{transform:translateX(22px)}
+.th{display:flex;flex-direction:column;gap:14px;margin-top:6px}
+.th label{display:flex;justify-content:space-between;font-weight:600;font-size:14px}
+.th input{width:100%;accent-color:var(--leaf);min-height:28px}
+.log{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.log li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+.log li:first-child{border-top:0}
+.log .sev{width:10px;height:10px;border-radius:50%}
+.log time{color:var(--muted);font-size:13px}
+@media (max-width:1100px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media (max-width:760px){
+  .app{grid-template-columns:1fr}
+  aside{flex-direction:row;align-items:center;padding:12px 16px;overflow-x:auto}
+  aside nav{flex-direction:row}
+  aside nav a span,.site{display:none}
+  main{padding:18px 16px 32px}
+}
+@media (max-width:420px){.tiles{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.switch::after{transition:none}}
+</style>
+
+<div class="demo">Application de démonstration réalisée par <strong>Landify DZ</strong> · Données simulées</div>
+
+<div class="app">
+  <aside>
+    <div class="brand"><svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" rx="8" fill="#2F7D4A"/><path d="M9 21c0-7 5-12 12-12 0 7-5 12-12 12Z" fill="#E2F0E6"/><path d="M9 21l7-7" stroke="#2F7D4A" stroke-width="2"/></svg>AgriSense</div>
+    <nav aria-label="Navigation">
+      <a href="#" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Tableau de bord</span></a>
+      <a href="#ctrl"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg><span>Commandes</span></a>
+      <a href="#alerts"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg><span>Alertes</span></a>
+    </nav>
+    <div class="site"><b>Serre B · Tomates</b>Staouéli · 6 capteurs</div>
+  </aside>
+
+  <main>
+    <div class="top">
+      <div><h1>Serre B · Tomates</h1><p>Mise à jour : <span class="mono" id="clock">--:--:--</span></p></div>
+      <span class="live"><i></i>En direct</span>
+    </div>
+
+    <div class="banner" id="banner" role="status">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+      <span id="banner-text">Humidité du sol basse : l'irrigation est recommandée.</span>
+    </div>
+
+    <div class="tiles" id="tiles"></div>
+
+    <div class="grid2">
+      <div class="card">
+        <div class="card-head">
+          <h2>Climat de la serre</h2>
+          <div class="legend"><span><i style="background:var(--sun)"></i>Température (°C)</span><span><i style="background:var(--water)"></i>Humidité air (%)</span></div>
+          <div class="seg" role="group" aria-label="Période"><button type="button" aria-pressed="true" data-p="24">24 h</button><button type="button" aria-pressed="false" data-p="168">7 jours</button></div>
+        </div>
+        <div class="chart-wrap"><svg id="chart" viewBox="0 0 640 260" role="img" aria-label="Courbes de température et d'humidité"></svg></div>
+      </div>
+
+      <div class="card" id="ctrl">
+        <div class="card-head"><h2>Commandes à distance</h2></div>
+        <div class="ctrl" id="switches"></div>
+        <div class="th">
+          <div><label for="t-soil">Seuil d'arrosage (sol) <span class="mono" id="t-soil-v">35 %</span></label><input type="range" id="t-soil" min="20" max="60" value="35"></div>
+          <div><label for="t-temp">Ventilation au-dessus de <span class="mono" id="t-temp-v">30 °C</span></label><input type="range" id="t-temp" min="24" max="38" value="30"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="alerts">
+      <div class="card-head"><h2>Journal des alertes</h2></div>
+      <ul class="log" id="log"></ul>
+    </div>
+  </main>
+</div>
+
+<script>
+const S = {temp:29.4, hum:68, soil:31, lux:42};
+const hist = {temp:[], hum:[], soil:[], lux:[]};
+const sw = [
+  {id:"pump", name:"Pompe d'irrigation", desc:"Goutte-à-goutte · rangées 1 à 6", on:false},
+  {id:"fan", name:"Ventilation", desc:"2 extracteurs latéraux", on:true},
+  {id:"light", name:"Éclairage d'appoint", desc:"LED horticoles", on:false}
+];
+const log = [
+  {sev:"warn", text:"Humidité du sol sous le seuil (31 %)", t:"10:42"},
+  {sev:"ok", text:"Ventilation activée automatiquement (29,8 °C)", t:"10:15"},
+  {sev:"crit", text:"Capteur de luminosité hors ligne pendant 4 min", t:"07:58"},
+  {sev:"ok", text:"Irrigation terminée · 18 min", t:"06:30"}
+];
+const fmt = (n, d=1) => n.toFixed(d).replace(".", ",");
+for (let i=0;i<20;i++){ hist.temp.push(27+Math.sin(i/3)*1.6+i*.08); hist.hum.push(66+Math.cos(i/4)*3); hist.soil.push(38-i*.35); hist.lux.push(30+i*.6+Math.sin(i)*2); }
+
+function seriesFor(h){
+  const pts=[]; const n = h===24?24:28;
+  for(let i=0;i<=n;i++){
+    const x=i/n, day = h===24 ? x : (x*7)%1;
+    pts.push({t: 18+9*Math.sin((day-.3)*Math.PI*2)*.6+ (h===24?0:Math.sin(i)*1.2) + 4, h: 70-14*Math.sin((day-.3)*Math.PI*2)*.6 + (h===24?0:Math.cos(i)*3)});
+  }
+  return pts;
+}
+function spark(arr, color){
+  const w=200,h=40,min=Math.min(...arr),max=Math.max(...arr),r=(max-min)||1;
+  const p=arr.map((v,i)=>[i/(arr.length-1)*w, h-4-(v-min)/r*(h-10)]);
+  const d=p.map((q,i)=>(i?"L":"M")+q[0].toFixed(1)+" "+q[1].toFixed(1)).join(" ");
+  const last=p[p.length-1];
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><path d="${d} L${w} ${h} L0 ${h}Z" fill="${color}" opacity=".12"/><path d="${d}" fill="none" stroke="${color}" stroke-width="2" vector-effect="non-scaling-stroke"/><circle cx="${last[0]}" cy="${last[1]}" r="3" fill="${color}"/></svg>`;
+}
+const soilTh = () => Number(document.getElementById("t-soil").value);
+const tempTh = () => Number(document.getElementById("t-temp").value);
+function status(key){
+  if(key==="soil") return S.soil < soilTh() ? ["warn","Bas"] : ["ok","Normal"];
+  if(key==="temp") return S.temp >= tempTh()+3 ? ["crit","Élevée"] : S.temp >= tempTh() ? ["warn","Chaude"] : ["ok","Normale"];
+  if(key==="hum") return S.hum > 85 ? ["warn","Élevée"] : ["ok","Normale"];
+  return ["ok","Normale"];
+}
+function renderTiles(){
+  const t=[
+    {k:"temp",l:"Température air",v:fmt(S.temp),u:"°C",c:"#B7791F"},
+    {k:"hum",l:"Humidité air",v:Math.round(S.hum),u:"%",c:"#2D6CB0"},
+    {k:"soil",l:"Humidité du sol",v:Math.round(S.soil),u:"%",c:"#2F7D4A"},
+    {k:"lux",l:"Luminosité",v:Math.round(S.lux),u:"klux",c:"#7A6A2A"}
+  ];
+  document.getElementById("tiles").innerHTML=t.map(x=>{const s=status(x.k);return `<div class="tile"><div class="lbl">${x.l}<span class="chip ${s[0]}">${s[1]}</span></div><div class="val">${x.v}<small>${x.u}</small></div>${spark(hist[x.k],x.c)}</div>`}).join("");
+  const low = S.soil < soilTh() && !sw[0].on;
+  const b=document.getElementById("banner");
+  b.classList.toggle("ok", !low);
+  document.getElementById("banner-text").textContent = low ? `Humidité du sol basse (${Math.round(S.soil)} %) : l'irrigation est recommandée.` : (sw[0].on ? "Irrigation en cours. Tous les autres paramètres sont normaux." : "Tous les paramètres sont dans les seuils.");
+}
+let period=24;
+function renderChart(){
+  const pts=seriesFor(period), W=640,H=260,L=40,R=40,T=14,B=30;
+  const x=i=>L+i/(pts.length-1)*(W-L-R);
+  const yt=v=>T+(1-(v-10)/30)*(H-T-B);
+  const yh=v=>T+(1-(v-30)/70)*(H-T-B);
+  let g="";
+  [10,20,30,40].forEach(v=>{g+=`<line x1="${L}" x2="${W-R}" y1="${yt(v)}" y2="${yt(v)}" stroke="#DCE4DD"/><text x="${L-8}" y="${yt(v)+4}" text-anchor="end" font-size="11" fill="#B7791F" font-family="JetBrains Mono, monospace">${v}</text>`});
+  [30,65,100].forEach(v=>{g+=`<text x="${W-R+8}" y="${yh(v)+4}" font-size="11" fill="#2D6CB0" font-family="JetBrains Mono, monospace">${v}</text>`});
+  const labels = period===24 ? ["00h","06h","12h","18h","24h"] : ["Sam","Dim","Lun","Mar","Mer","Jeu","Ven"];
+  labels.forEach((lb,i)=>{const xx=L+i/(labels.length-1)*(W-L-R);g+=`<text x="${xx}" y="${H-8}" text-anchor="middle" font-size="11" fill="#5B6A60" font-family="Manrope, sans-serif">${lb}</text>`});
+  const path=(f,k)=>pts.map((p,i)=>(i?"L":"M")+x(i).toFixed(1)+" "+f(p[k]).toFixed(1)).join(" ");
+  const pt=path(yt,"t"), ph=path(yh,"h");
+  g+=`<path d="${pt} L${x(pts.length-1)} ${H-B} L${L} ${H-B}Z" fill="#B7791F" opacity=".08"/>`;
+  g+=`<path d="${ph}" fill="none" stroke="#2D6CB0" stroke-width="2.2"/><path d="${pt}" fill="none" stroke="#B7791F" stroke-width="2.6"/>`;
+  const lp=pts[pts.length-1];
+  g+=`<circle cx="${x(pts.length-1)}" cy="${yt(lp.t)}" r="4.5" fill="#B7791F" stroke="#fff" stroke-width="2"/><circle cx="${x(pts.length-1)}" cy="${yh(lp.h)}" r="4.5" fill="#2D6CB0" stroke="#fff" stroke-width="2"/>`;
+  document.getElementById("chart").innerHTML=g;
+}
+function renderSwitches(){
+  document.getElementById("switches").innerHTML=sw.map(s=>`<div class="row"><div><b id="lbl-${s.id}">${s.name}</b><span>${s.desc} · ${s.on?"En marche":"Arrêtée"}</span></div><button class="switch" type="button" role="switch" aria-checked="${s.on}" aria-labelledby="lbl-${s.id}" data-id="${s.id}"></button></div>`).join("");
+}
+function renderLog(){
+  const col={ok:"#2F7D4A",warn:"#B7791F",crit:"#B83A2E"};
+  document.getElementById("log").innerHTML=log.slice(0,6).map(l=>`<li><span class="sev" style="background:${col[l.sev]}"></span><span>${l.text}</span><time class="mono">${l.t}</time></li>`).join("");
+}
+const now=()=>new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+document.getElementById("switches").addEventListener("click",e=>{
+  const b=e.target.closest(".switch"); if(!b) return;
+  const s=sw.find(x=>x.id===b.dataset.id); s.on=!s.on;
+  log.unshift({sev:"ok", text:`${s.name} ${s.on?"activée":"arrêtée"} à distance`, t:now().slice(0,5)});
+  renderSwitches(); renderLog(); renderTiles();
+});
+document.querySelector(".seg").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  period=Number(b.dataset.p);
+  document.querySelectorAll(".seg button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
+  renderChart();
+});
+["t-soil","t-temp"].forEach(id=>document.getElementById(id).addEventListener("input",()=>{
+  document.getElementById("t-soil-v").textContent=soilTh()+" %";
+  document.getElementById("t-temp-v").textContent=tempTh()+" °C";
+  renderTiles();
+}));
+function tick(){
+  S.temp+= (Math.random()-.5)*.3 - (sw[1].on?.03:-.03);
+  S.hum = Math.min(95, Math.max(40, S.hum+(Math.random()-.5)*1.2));
+  S.soil = Math.min(70, Math.max(10, S.soil + (sw[0].on? .9 : -.05) + (Math.random()-.5)*.2));
+  S.lux = Math.max(0, S.lux+(Math.random()-.5)*1.5);
+  for(const k in hist){ hist[k].push(S[k]); hist[k].shift(); }
+  document.getElementById("clock").textContent=now();
+  renderTiles();
+}
+document.getElementById("clock").textContent=now();
+renderTiles(); renderChart(); renderSwitches(); renderLog();
+if(!matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(tick,3000);
+</script>
+
+</body>
+</html>

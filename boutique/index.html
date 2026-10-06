@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body>
+<title>Maison Lina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500&family=Jost:wght@400;500;600&display=swap">
+<style>
+/* Layout: boutique éditoriale — bandeau démo, hero typographique, grille produits 3→2→1, étapes de commande, pied de page */
+:root{
+  --bg:#F7F1EE; --surface:#FFFFFF; --ink:#231A1C; --muted:#6B5A5D;
+  --accent:#8C2F45; --accent-ink:#FFFFFF; --blush:#ECD8D3; --line:#E2D2CD;
+  --display:'Bodoni Moda', 'Didot', Georgia, serif;
+  --body:'Jost', 'Helvetica Neue', Arial, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1160px;margin:0 auto;padding-inline:24px}
+.demo{background:var(--ink);color:#F7F1EE;font-size:13px;letter-spacing:.04em;text-align:center;padding:8px 16px}
+.demo a{color:#F2C6CF}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:18px}
+.logo{font-family:var(--display);font-size:28px;font-weight:700;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
+.logo em{font-weight:500;color:var(--accent)}
+.nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0;font-size:15px}
+.nav ul a{color:var(--ink);text-decoration:none}
+.nav ul a:hover{color:var(--accent)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 26px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font:600 15px var(--body);letter-spacing:.03em;text-decoration:none;border:0;cursor:pointer}
+.btn:hover{background:#73233A}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--bg)}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding-block:64px 56px}
+.eyebrow{text-transform:uppercase;letter-spacing:.18em;font-size:13px;font-weight:600;color:var(--accent);margin:0 0 18px}
+h1{font-family:var(--display);font-weight:500;font-size:clamp(44px,7vw,88px);line-height:.98;letter-spacing:-.02em;margin:0 0 22px;text-wrap:balance}
+h1 i{color:var(--accent)}
+.lead{font-size:19px;color:var(--muted);max-width:52ch;margin:0 0 30px}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+.hero-art{background:var(--blush);border-radius:220px 220px 16px 16px;aspect-ratio:4/5;max-width:100%;position:relative;overflow:hidden}
+.hero-art img{width:100%;height:100%;object-fit:cover;display:block}
+.tag{position:absolute;bottom:28px;left:28px;background:var(--surface);border-radius:999px;padding:8px 16px;font-size:14px;font-weight:600}
+.trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border-block:1px solid var(--line)}
+.trust div{background:var(--bg);padding:22px 20px;display:flex;flex-direction:column;gap:2px}
+.trust b{font-family:var(--display);font-size:20px;font-weight:500}
+.trust span{font-size:14px;color:var(--muted)}
+section{padding-block:72px}
+h2{font-family:var(--display);font-weight:500;font-size:clamp(32px,4.5vw,52px);line-height:1.05;margin:0 0 10px;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 36px;max-width:60ch}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.card{display:flex;flex-direction:column;gap:14px}
+.pic{border-radius:14px;aspect-ratio:4/5;max-width:100%;position:relative;overflow:hidden;background:var(--blush)}
+.pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.card:hover .pic img{transform:scale(1.04)}
+@media (prefers-reduced-motion:reduce){.pic img{transition:none}}
+.badge{position:absolute;top:14px;left:14px;background:var(--ink);color:var(--bg);font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:4px}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.card h3{font-family:var(--display);font-weight:500;font-size:22px;margin:0}
+.price{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sizes{display:flex;gap:8px;flex-wrap:wrap}
+.sizes button{min-width:44px;min-height:44px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:500 14px var(--body);cursor:pointer}
+.sizes button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+.card .btn{width:100%}
+.steps{background:var(--surface);border-radius:20px;padding:48px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px}
+.step b{display:block;font-family:var(--display);font-size:56px;line-height:1;color:var(--accent);font-weight:500;margin-bottom:10px}
+.step h3{margin:0 0 6px;font-size:19px;font-weight:600}
+.step p{margin:0;color:var(--muted);font-size:16px}
+footer{border-top:1px solid var(--line);padding-block:40px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px;font-size:15px;color:var(--muted)}
+footer strong{color:var(--ink)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:14px 22px;border-radius:12px;font-size:15px;max-width:calc(100% - 32px)}
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .hero-art{max-width:420px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .steps{grid-template-columns:1fr;padding:32px}
+  .nav ul{display:none}
+}
+@media (max-width:560px){
+  .wrap{padding-inline:16px}
+  .grid{grid-template-columns:1fr}
+  .trust{grid-template-columns:1fr}
+  section{padding-block:52px}
+}
+@media (prefers-reduced-motion:no-preference){.btn,.sizes button{transition:background .15s,color .15s,border-color .15s}}
+</style>
+
+<div class="demo">Site de démonstration réalisé par <strong>Landify DZ</strong> · Les produits et prix sont fictifs</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top">Maison <em>Lina</em></a>
+    <ul>
+      <li><a href="#collection">Collection</a></li>
+      <li><a href="#commande">Commander</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="btn" id="wa-header" href="#" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <p class="eyebrow">Collection automne · Alger</p>
+      <h1>L'élégance au quotidien, <i>livrée chez vous.</i></h1>
+      <p class="lead">Robes, chemises et vestes pensées pour la femme algérienne. Commandez en un message, payez à la livraison.</p>
+      <div class="cta-row">
+        <a class="btn" href="#collection">Voir la collection</a>
+        <a class="btn ghost" id="wa-hero" href="#" target="_blank" rel="noopener">Commander sur WhatsApp</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <span class="tag">Nouveautés</span>
+      <img src="img/lina-hero.jpg" alt="" width="900" height="1125">
+    </div>
+  </div>
+
+  <div class="trust">
+    <div><b>58 wilayas</b><span>Livraison partout en Algérie</span></div>
+    <div><b>Paiement à la livraison</b><span>Vous payez quand vous recevez</span></div>
+    <div><b>Échange sous 7 jours</b><span>Taille pas adaptée ? On échange</span></div>
+  </div>
+
+  <section id="collection">
+    <div class="wrap">
+      <h2>La collection</h2>
+      <p class="sub">Choisissez votre taille, puis commandez directement sur WhatsApp. Nous confirmons la disponibilité et le délai de livraison.</p>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section id="commande">
+    <div class="wrap">
+      <h2>Commander en 3 étapes</h2>
+      <p class="sub">Simple et sans inscription.</p>
+      <div class="steps">
+        <div class="step"><b>1</b><h3>Choisissez votre article</h3><p>Sélectionnez le modèle et votre taille dans la collection.</p></div>
+        <div class="step"><b>2</b><h3>Envoyez la commande</h3><p>Le bouton prépare le message WhatsApp avec l'article et la taille.</p></div>
+        <div class="step"><b>3</b><h3>Recevez et payez</h3><p>Livraison à domicile, paiement en espèces à la réception.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="wrap">
+  <footer id="contact">
+    <div><strong>Maison Lina</strong><br>Boutique de prêt-à-porter féminin · Alger</div>
+    <div>WhatsApp : <strong id="wa-num">+213 549 87 33 20</strong><br>Ouvert du samedi au jeudi, 10h – 19h</div>
+    <div>Site réalisé par <strong>Landify DZ</strong></div>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+const WA_NUMBER = "213549873320";
+const waLink = (text) => "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(text);
+
+
+const products = [
+  {id:"selma", img:"lina-selma", name:"Robe longue Selma", price:6900, shape:"robe", color:"#8C2F45", bg:"#ECD8D3", badge:"Nouveau"},
+  {id:"yasmine", img:"lina-yasmine", name:"Chemise en lin Yasmine", price:3900, shape:"chemise", color:"#C9B08A", bg:"#F0E6DA"},
+  {id:"nour", img:"lina-nour", name:"Veste kimono Nour", price:5500, shape:"veste", color:"#3E4A3D", bg:"#DCE2D6", badge:"Best-seller"},
+  {id:"ines", img:"lina-ines", name:"Pantalon large Inès", price:4200, shape:"pantalon", color:"#231A1C", bg:"#E4DCDA"},
+  {id:"amel", img:"lina-amel", name:"Robe fluide Amel", price:5200, shape:"robe", color:"#5B6F8C", bg:"#DDE3EC"},
+  {id:"kenza", img:"lina-kenza", name:"Chemise brodée Kenza", price:4600, shape:"chemise", color:"#F7F1EE", bg:"#CDB8B3"}
+];
+const sizes = ["S","M","L","XL"];
+const fmt = (n) => n.toLocaleString("fr-FR").replace(/ | /g," ") + " DA";
+
+const grid = document.getElementById("grid");
+grid.innerHTML = products.map(p => `
+  <article class="card" data-id="${p.id}">
+    <div class="pic">
+      ${p.badge ? `<span class="badge">${p.badge}</span>` : ""}
+      <img src="img/${p.img}.jpg" alt="${p.name}" loading="lazy" width="800" height="1000">
+    </div>
+    <div class="row"><h3>${p.name}</h3><span class="price">${fmt(p.price)}</span></div>
+    <div class="sizes" role="group" aria-label="Taille pour ${p.name}">
+      ${sizes.map(s => `<button type="button" aria-pressed="${s==="M"}" data-size="${s}">${s}</button>`).join("")}
+    </div>
+    <a class="btn order" href="#" target="_blank" rel="noopener">Commander sur WhatsApp</a>
+  </article>`).join("");
+
+function orderText(p, size){
+  return `Bonjour Maison Lina 👋\nJe souhaite commander :\n• ${p.name} — taille ${size} — ${fmt(p.price)}\nMa wilaya : \nMon adresse : `;
+}
+function refresh(card){
+  const p = products.find(x => x.id === card.dataset.id);
+  const size = card.querySelector('[aria-pressed="true"]').dataset.size;
+  card.querySelector(".order").href = waLink(orderText(p, size));
+}
+grid.querySelectorAll(".card").forEach(refresh);
+grid.addEventListener("click", (e) => {
+  const b = e.target.closest(".sizes button");
+  if (!b) return;
+  const card = b.closest(".card");
+  card.querySelectorAll(".sizes button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  refresh(card);
+});
+
+const general = waLink("Bonjour Maison Lina 👋 J'aimerais avoir des informations sur votre collection.");
+document.getElementById("wa-header").href = general;
+document.getElementById("wa-hero").href = general;
+
+const toast = document.getElementById("toast");
+grid.addEventListener("click", (e) => {
+  if (!e.target.closest(".order")) return;
+  toast.textContent = "WhatsApp s'ouvre avec votre commande prête à envoyer.";
+  toast.hidden = false;
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => toast.hidden = true, 3500);
+});
+</script>
+
+</body>
+</html>

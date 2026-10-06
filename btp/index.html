@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body>
+<title>Atlas BTP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100,500;100,600;112,700;112,800&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: entreprise BTP — hero plan d'architecte, bande d'engagements, services 4 colonnes, projets filtrables, formulaire de devis */
+:root{
+  --bg:#F1F0EC; --surface:#FFFFFF; --ink:#1A2230; --muted:#5A6272;
+  --steel:#1F3A5F; --steel-2:#2B4E7C; --ochre:#C98B2B; --ochre-ink:#1A2230; --line:#D9D6CE;
+  --display:'Archivo', 'Arial Narrow', Arial, sans-serif;
+  --body:'Public Sans', 'Segoe UI', Arial, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;margin:0}
+a{color:var(--steel)}
+:focus-visible{outline:3px solid var(--ochre);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:24px}
+.demo{background:var(--ink);color:#F1F0EC;font-size:13px;text-align:center;padding:8px 16px}
+header{background:var(--surface);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:16px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.logo svg{width:40px;height:40px}
+.logo b{font-family:var(--display);font-stretch:112%;font-weight:800;font-size:22px;letter-spacing:.02em;text-transform:uppercase}
+.nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0;font-weight:500;font-size:15px}
+.nav ul a{color:var(--ink);text-decoration:none}
+.nav ul a:hover{color:var(--steel-2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border-radius:4px;background:var(--ochre);color:var(--ochre-ink);font:600 16px var(--body);text-decoration:none;border:0;cursor:pointer}
+.btn:hover{background:#B57A20}
+.btn.dark{background:var(--steel);color:#fff}
+.btn.dark:hover{background:var(--steel-2)}
+.hero{background:var(--steel);color:#fff;position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding-block:72px}
+.kicker{font-family:var(--display);font-stretch:100%;font-weight:600;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--ochre);margin:0 0 16px}
+h1{font-family:var(--display);font-stretch:112%;font-weight:800;font-size:clamp(40px,6vw,76px);line-height:.98;letter-spacing:-.01em;margin:0 0 20px;text-transform:uppercase;text-wrap:balance}
+.hero p.lead{font-size:19px;color:#C9D5E6;max-width:48ch;margin:0 0 28px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.btn.ghost{background:transparent;color:#fff;border:1.5px solid #8EA5C4}
+.btn.ghost:hover{background:var(--steel-2)}
+.hero{background-image:linear-gradient(#2B4E7C 1px,transparent 1px),linear-gradient(90deg,#2B4E7C 1px,transparent 1px);background-size:40px 40px;background-color:var(--steel)}
+.hero-photo{margin:0;position:relative;border-radius:6px;overflow:hidden;aspect-ratio:4/5;max-height:560px;max-width:100%;justify-self:end;width:100%;box-shadow:0 30px 60px rgba(0,0,0,.35)}
+.hero-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-photo figcaption{position:absolute;left:16px;bottom:16px;right:16px;display:flex;align-items:center;gap:10px;background:rgba(26,34,48,.88);color:#fff;font-weight:600;font-size:15px;padding:12px 16px;border-radius:4px}
+.hero-photo .dot{width:10px;height:10px;border-radius:50%;background:var(--ochre);flex-shrink:0}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:var(--surface);border-bottom:1px solid var(--line)}
+.facts div{padding:24px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
+.facts div:last-child{border-right:0}
+.facts b{font-family:var(--display);font-stretch:100%;font-weight:600;font-size:20px}
+.facts span{color:var(--muted);font-size:15px}
+section{padding-block:72px}
+h2{font-family:var(--display);font-stretch:112%;font-weight:800;font-size:clamp(30px,4vw,44px);text-transform:uppercase;line-height:1;margin:0 0 12px}
+.sub{color:var(--muted);max-width:62ch;margin:0 0 36px}
+.services{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.svc{background:var(--surface);padding:28px 24px;display:flex;flex-direction:column;gap:10px}
+.svc .code{font-family:var(--display);font-stretch:100%;font-weight:600;font-size:13px;letter-spacing:.12em;color:var(--ochre)}
+.svc h3{font-family:var(--display);font-stretch:100%;font-weight:600;font-size:21px;margin:0}
+.svc p{margin:0;color:var(--muted);font-size:15.5px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.filters button{min-height:44px;padding:0 18px;border-radius:4px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:500 15px var(--body);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--steel);border-color:var(--steel);color:#fff}
+.projects{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.proj{background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column}
+.proj .ph{aspect-ratio:4/3;max-width:100%;overflow:hidden}
+.proj .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.proj:hover .ph img{transform:scale(1.04)}
+@media (prefers-reduced-motion:reduce){.proj .ph img{transition:none}}
+.proj .body{padding:20px;display:flex;flex-direction:column;gap:6px}
+.proj .tag{font-size:13px;font-weight:600;color:var(--ochre);text-transform:uppercase;letter-spacing:.08em}
+.proj h3{margin:0;font-family:var(--display);font-stretch:100%;font-weight:600;font-size:20px}
+.proj dl{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;margin:6px 0 0;font-size:14.5px;color:var(--muted)}
+.proj dd{margin:0;color:var(--ink);font-variant-numeric:tabular-nums}
+.devis{background:var(--ink);color:#fff}
+.devis h2{color:#fff}
+.devis .sub{color:#AEB7C6}
+.devis-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;align-items:start}
+form{background:var(--surface);color:var(--ink);padding:28px;border-radius:6px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field.full{grid-column:1/-1}
+label{font-weight:600;font-size:15px}
+input,select,textarea{font:inherit;font-size:16px;min-height:48px;padding:10px 12px;border:1.5px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink);width:100%}
+textarea{min-height:96px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--steel)}
+form .btn{grid-column:1/-1}
+.err{grid-column:1/-1;color:#A3321F;margin:0;font-size:15px}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:20px}
+.steps li{display:grid;grid-template-columns:48px 1fr;gap:16px;align-items:start}
+.steps b{font-family:var(--display);font-stretch:112%;font-weight:800;font-size:28px;color:var(--ochre);line-height:1}
+.steps h3{margin:0 0 4px;font-size:18px}
+.steps p{margin:0;color:#AEB7C6;font-size:15.5px}
+.ok{grid-column:1/-1;background:#EAF1E6;border:1px solid #BFD4B4;border-radius:4px;padding:14px;font-size:15px;display:flex;flex-direction:column;gap:10px}
+footer{padding-block:32px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;color:var(--muted);font-size:15px;border-top:1px solid var(--line)}
+footer strong{color:var(--ink)}
+@media (max-width:960px){
+  .hero .wrap,.devis-grid{grid-template-columns:1fr}
+  .services{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .projects{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nav ul{display:none}
+}
+@media (max-width:600px){
+  .wrap{padding-inline:16px}
+  .services,.projects,.facts{grid-template-columns:1fr}
+  .facts div{border-right:0;border-bottom:1px solid var(--line)}
+  form{grid-template-columns:1fr;padding:20px}
+  section{padding-block:52px}
+  .hero .wrap{padding-block:48px}
+  .nav .btn{padding:0 16px}
+}
+</style>
+
+<div class="demo">Site de démonstration réalisé par <strong>Landify DZ</strong> · Entreprise et projets fictifs</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="4" fill="#1F3A5F"/><path d="M8 31 L20 9 L32 31 Z" fill="none" stroke="#C98B2B" stroke-width="3.5" stroke-linejoin="round"/><path d="M14 31 L20 20 L26 31" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/></svg>
+      <b>Atlas BTP</b>
+    </a>
+    <ul>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#projets">Projets</a></li>
+      <li><a href="#devis">Devis</a></li>
+    </ul>
+    <a class="btn" href="#devis">Demander un devis</a>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <p class="kicker">Entreprise de bâtiment · Alger</p>
+        <h1>Construire juste, livrer à temps.</h1>
+        <p class="lead">Gros œuvre, second œuvre et rénovation pour particuliers et professionnels. Un seul interlocuteur, du plan à la remise des clés.</p>
+        <div class="cta">
+          <a class="btn" href="#devis">Obtenir un devis gratuit</a>
+          <a class="btn ghost" href="#projets">Voir nos réalisations</a>
+        </div>
+      </div>
+      <figure class="hero-photo">
+        <img src="img/atlas-hero.jpg" alt="Grue sur un chantier de construction" width="900" height="1125">
+        <figcaption><span class="dot"></span>Chantier en cours · R+4 · Bordj El Kiffan</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="facts">
+    <div><b>Devis sous 48 h</b><span>Visite du chantier offerte</span></div>
+    <div><b>Alger · Boumerdès · Blida</b><span>Zones d'intervention</span></div>
+    <div><b>Suivi hebdomadaire</b><span>Photos et rapport d'avancement</span></div>
+  </div>
+
+  <section id="services">
+    <div class="wrap">
+      <h2>Nos services</h2>
+      <p class="sub">Nous prenons en charge tout ou partie de votre projet, avec des équipes qualifiées et un planning tenu.</p>
+      <div class="services">
+        <div class="svc"><span class="code">LOT 01</span><h3>Gros œuvre</h3><p>Terrassement, fondations, structure béton armé, maçonnerie.</p></div>
+        <div class="svc"><span class="code">LOT 02</span><h3>Second œuvre</h3><p>Plomberie, électricité, cloisons, carrelage, peinture.</p></div>
+        <div class="svc"><span class="code">LOT 03</span><h3>Rénovation</h3><p>Réaménagement d'appartements, villas et locaux commerciaux.</p></div>
+        <div class="svc"><span class="code">LOT 04</span><h3>Études &amp; suivi</h3><p>Métrés, devis quantitatif et estimatif, suivi de chantier.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projets" style="padding-top:0">
+    <div class="wrap">
+      <h2>Réalisations</h2>
+      <p class="sub">Une sélection de chantiers livrés. Filtrez par type de projet.</p>
+      <div class="filters" role="group" aria-label="Filtrer les projets" id="filters">
+        <button type="button" aria-pressed="true" data-f="all">Tous</button>
+        <button type="button" aria-pressed="false" data-f="res">Résidentiel</button>
+        <button type="button" aria-pressed="false" data-f="com">Commercial</button>
+        <button type="button" aria-pressed="false" data-f="reno">Rénovation</button>
+      </div>
+      <div class="projects" id="projects"></div>
+    </div>
+  </section>
+
+  <section class="devis" id="devis">
+    <div class="wrap devis-grid">
+      <div>
+        <h2>Demander un devis</h2>
+        <p class="sub">Décrivez votre projet : votre demande est préparée dans WhatsApp, il ne reste qu'à l'envoyer.</p>
+        <ol class="steps">
+          <li><b>1</b><div><h3>Votre demande</h3><p>Type de travaux, surface et wilaya.</p></div></li>
+          <li><b>2</b><div><h3>Visite du chantier</h3><p>Un conducteur de travaux passe évaluer le projet.</p></div></li>
+          <li><b>3</b><div><h3>Devis détaillé</h3><p>Chiffrage par lot, délais et planning.</p></div></li>
+        </ol>
+      </div>
+      <form id="form" novalidate>
+        <div class="field"><label for="nom">Nom ou entreprise</label><input id="nom" autocomplete="name" value="Karim Mansouri"></div>
+        <div class="field"><label for="tel">Téléphone</label><input id="tel" type="tel" inputmode="tel" autocomplete="tel" value="0661 23 45 67"></div>
+        <div class="field"><label for="type">Type de travaux</label>
+          <select id="type"><option>Construction neuve</option><option>Gros œuvre</option><option>Second œuvre</option><option selected>Rénovation</option><option>Études &amp; suivi</option></select>
+        </div>
+        <div class="field"><label for="wilaya">Wilaya</label>
+          <select id="wilaya"><option>Alger</option><option>Boumerdès</option><option>Blida</option><option>Tipaza</option></select>
+        </div>
+        <div class="field"><label for="surface">Surface (m²)</label><input id="surface" type="number" inputmode="numeric" min="1" value="120"></div>
+        <div class="field"><label for="delai">Début souhaité</label>
+          <select id="delai"><option>Dès que possible</option><option selected>Dans 1 à 3 mois</option><option>Dans plus de 3 mois</option></select>
+        </div>
+        <div class="field full"><label for="desc">Description</label><textarea id="desc">Rénovation complète d'un F4 : électricité, plomberie, carrelage et peinture.</textarea></div>
+        <p class="err" id="err" hidden></p>
+        <div id="ok" class="ok" role="status" hidden></div>
+        <button class="btn" type="submit">Préparer ma demande de devis</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<div class="wrap">
+  <footer>
+    <span><strong>Atlas BTP</strong> · Entreprise de bâtiment · Alger</span>
+    <span>WhatsApp : <strong>+213 549 87 33 20</strong></span>
+    <span>Site réalisé par <strong>Landify DZ</strong></span>
+  </footer>
+</div>
+
+<script>
+const WA_NUMBER = "213549873320";
+const projects = [
+  {cat:"res", tag:"Résidentiel", name:"Immeuble R+4, 8 logements", place:"Bordj El Kiffan", surface:"1 150 m²", time:"14 mois", img:"atlas-r4"},
+  {cat:"com", tag:"Commercial", name:"Showroom automobile", place:"Bab Ezzouar", surface:"620 m²", time:"7 mois", img:"atlas-showroom"},
+  {cat:"reno", tag:"Rénovation", name:"Villa familiale R+1", place:"Chéraga", surface:"240 m²", time:"5 mois", img:"atlas-villa-reno"},
+  {cat:"res", tag:"Résidentiel", name:"Villa neuve avec sous-sol", place:"Boumerdès", surface:"310 m²", time:"11 mois", img:"atlas-villa-neuve"},
+  {cat:"com", tag:"Commercial", name:"Plateau de bureaux", place:"Hydra", surface:"480 m²", time:"4 mois", img:"atlas-bureaux"},
+  {cat:"reno", tag:"Rénovation", name:"Appartement F4", place:"Kouba", surface:"105 m²", time:"10 semaines", img:"atlas-f4"}
+];
+const grid = document.getElementById("projects");
+function render(f){
+  grid.innerHTML = projects.filter(p => f === "all" || p.cat === f).map(p => `
+    <article class="proj">
+      <div class="ph"><img src="img/${p.img}.jpg" alt="${p.name}" loading="lazy" width="960" height="720"></div>
+      <div class="body">
+        <span class="tag">${p.tag}</span>
+        <h3>${p.name}</h3>
+        <dl><dt>Lieu</dt><dd>${p.place}</dd><dt>Surface</dt><dd>${p.surface}</dd><dt>Durée</dt><dd>${p.time}</dd></dl>
+      </div>
+    </article>`).join("");
+}
+render("all");
+document.getElementById("filters").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  document.querySelectorAll("#filters button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  render(b.dataset.f);
+});
+
+const form = document.getElementById("form");
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const v = id => document.getElementById(id).value.trim();
+  const err = document.getElementById("err"), ok = document.getElementById("ok");
+  const missing = [];
+  if (!v("nom")) missing.push("votre nom");
+  if (!v("tel")) missing.push("votre téléphone");
+  if (!(Number(v("surface")) > 0)) missing.push("une surface en m²");
+  if (missing.length){ err.textContent = "Pour continuer, indiquez " + missing.join(", ") + "."; err.hidden = false; ok.hidden = true; return; }
+  err.hidden = true;
+  const msg = `Bonjour Atlas BTP, je souhaite un devis.\nNom : ${v("nom")}\nTéléphone : ${v("tel")}\nTravaux : ${v("type")}\nWilaya : ${v("wilaya")}\nSurface : ${v("surface")} m²\nDébut : ${v("delai")}\nDétails : ${v("desc")}`;
+  ok.innerHTML = '<span>Votre demande est prête. Envoyez-la sur WhatsApp, nous vous rappelons sous 48 h.</span><a class="btn dark" target="_blank" rel="noopener">Envoyer sur WhatsApp</a>';
+  ok.querySelector("a").href = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg);
+  ok.hidden = false;
+});
+</script>
+
+</body>
+</html>

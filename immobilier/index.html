@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Les Terrasses d'Azur — Résidence haut standing à Aïn Taya</title>
+<meta name="description" content="Démo Landify DZ : site d'un promoteur immobilier — appartements F2 à F5 face à la mer, plan de masse interactif, simulateur de paiement, avancement des travaux.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ink:#0F2430;--ink-2:#1C3A4A;--muted:#5D6F78;--sand:#F3ECDF;--sand-2:#E8DCC6;--paper:#FBF8F2;--line:#E2D7C3;
+  --gold:#B8893E;--gold-2:#D7B26A;--sea:#1F5F7A;--ok:#2F7D4F;--warn:#B8752B;--sold:#9A3B3B;
+  --display:'Cormorant',Georgia,serif;--body:'Manrope','Segoe UI',Arial,sans-serif;--ar:'Tajawal','Segoe UI',Arial,sans-serif;
+  --r:18px;color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
+[dir=rtl] body{font-family:var(--ar);font-size:18px}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:28px}
+.demo{background:var(--ink);color:#E8DCC6;font-size:13px;text-align:center;padding:8px 16px}
+.demo b{color:var(--gold-2)}
+/* header */
+header{position:sticky;top:0;z-index:40;background:rgba(251,248,242,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:24px;height:76px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;margin-inline-end:auto}
+.brand svg{width:40px;height:40px;flex-shrink:0}
+.brand b{display:block;font-family:var(--display);font-size:26px;font-weight:700;line-height:1;letter-spacing:.01em}
+.brand small{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+[dir=rtl] .brand small{letter-spacing:0;font-size:13px}
+.links{display:flex;gap:22px;list-style:none;margin:0;padding:0;font-weight:600;font-size:15px}
+.links a{text-decoration:none;color:var(--ink-2)}
+.links a:hover{color:var(--gold)}
+.lang{display:flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
+.lang button{border:0;background:transparent;font:700 13px var(--body);padding:8px 12px;cursor:pointer;color:var(--muted);min-height:36px}
+.lang button[aria-pressed=true]{background:var(--ink);color:#fff}
+.lang button:last-child{font-family:var(--ar);font-size:15px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 24px;border-radius:999px;border:0;cursor:pointer;font:700 15px var(--body);text-decoration:none;transition:transform .15s,background .15s}
+[dir=rtl] .btn{font-family:var(--ar);font-size:16px}
+.btn:hover{transform:translateY(-1px)}
+.btn.gold{background:var(--gold);color:#fff}.btn.gold:hover{background:#A2762F}
+.btn.dark{background:var(--ink);color:#fff}.btn.dark:hover{background:var(--ink-2)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn.wa{background:#1F7A55;color:#fff}.btn.wa:hover{background:#18664A}
+.btn svg{width:20px;height:20px}
+.menu-btn{display:none;width:46px;height:46px;border-radius:12px;border:1.5px solid var(--line);background:#fff;cursor:pointer}
+/* hero */
+.hero{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--sand) 0%,var(--paper) 100%)}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding-block:64px 80px}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+[dir=rtl] .kicker{letter-spacing:0;font-size:16px}
+.kicker::before{content:"";width:34px;height:2px;background:var(--gold)}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(52px,7.4vw,104px);line-height:.92;letter-spacing:-.01em;margin:18px 0 22px}
+[dir=rtl] h1{font-family:var(--ar);font-weight:800;line-height:1.15;font-size:clamp(44px,6vw,80px)}
+h1 em{font-style:italic;color:var(--sea)}
+[dir=rtl] h1 em{font-style:normal}
+.lead{font-size:20px;color:var(--muted);max-width:52ch;margin:0 0 32px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.hero-media{position:relative}
+.hero-media .ph{border-radius:220px 220px 26px 26px;overflow:hidden;aspect-ratio:11/14;box-shadow:0 40px 80px rgba(15,36,48,.25)}
+.hero-media .ph img{width:100%;height:100%;object-fit:cover}
+.float{position:absolute;background:#fff;border-radius:18px;padding:14px 18px;box-shadow:0 18px 40px rgba(15,36,48,.18);display:flex;flex-direction:column;gap:2px;min-width:170px}
+.float small{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+[dir=rtl] .float small{letter-spacing:0;font-size:14px}
+.float b{font-size:22px;font-weight:800}
+.f1{left:-36px;top:18%}.f2{right:-24px;top:48%}.f3{left:-12px;bottom:8%}
+[dir=rtl] .f1{left:auto;right:-36px}[dir=rtl] .f2{right:auto;left:-24px}[dir=rtl] .f3{left:auto;right:-12px}
+.bar{height:8px;border-radius:4px;background:var(--sand-2);overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:var(--gold);border-radius:4px}
+/* figures */
+.figs{background:var(--ink);color:#fff}
+.figs .wrap{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0}
+.fig{padding:30px 18px;border-inline-end:1px solid rgba(255,255,255,.12);display:flex;flex-direction:column;gap:4px}
+.fig:last-child{border:0}
+.fig b{font-family:var(--display);font-size:46px;font-weight:600;line-height:1;color:var(--gold-2)}
+[dir=rtl] .fig b{font-family:var(--body)}
+.fig span{font-size:14px;color:#C9D5DA}
+section{padding-block:96px}
+.sec-head{display:flex;flex-direction:column;gap:12px;max-width:760px;margin-bottom:44px}
+h2{font-family:var(--display);font-weight:600;font-size:clamp(40px,5vw,64px);line-height:1;margin:0;letter-spacing:-.01em}
+[dir=rtl] h2{font-family:var(--ar);font-weight:800;line-height:1.2;font-size:clamp(34px,4.4vw,52px)}
+.sub{color:var(--muted);font-size:18px;margin:0}
+/* projet */
+.projet{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:start}
+.render{position:relative;border-radius:var(--r);overflow:hidden;box-shadow:0 30px 60px rgba(15,36,48,.15)}
+.tag3d{position:absolute;top:16px;left:16px;background:rgba(15,36,48,.85);color:#fff;font-size:13px;font-weight:700;padding:7px 12px;border-radius:999px;letter-spacing:.06em}
+[dir=rtl] .tag3d{left:auto;right:16px;letter-spacing:0}
+.amen{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:8px}
+.am{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+.am svg{width:30px;height:30px;flex-shrink:0;stroke:var(--gold)}
+.am b{font-size:15px;display:block;line-height:1.25}.am small{color:var(--muted);font-size:13px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.duo figure{margin:0;border-radius:14px;overflow:hidden;position:relative}
+.duo img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.duo figcaption{position:absolute;inset:auto 10px 10px;background:rgba(255,255,255,.92);border-radius:10px;padding:6px 10px;font-size:13px;font-weight:700}
+/* plan de masse */
+.plan-wrap{display:grid;grid-template-columns:1.5fr 1fr;gap:28px;align-items:stretch}
+.plan{position:relative;border-radius:var(--r);overflow:hidden;background:#cfc3aa;box-shadow:0 20px 50px rgba(15,36,48,.15)}
+.plan img{width:100%;height:auto}
+.hot{position:absolute;border:3px solid #fff;border-radius:8px;background:rgba(184,137,62,.25);cursor:pointer;display:grid;place-items:center;transition:background .2s,transform .2s}
+.hot:hover,.hot[aria-pressed=true]{background:rgba(184,137,62,.65);transform:scale(1.04)}
+.hot span{background:var(--ink);color:#fff;font-weight:800;font-size:18px;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;box-shadow:0 6px 14px rgba(0,0,0,.3)}
+.sea-lbl{position:absolute;top:8px;left:50%;transform:translateX(-50%);background:var(--sea);color:#fff;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;letter-spacing:.12em}
+[dir=rtl] .sea-lbl{letter-spacing:0;font-size:14px}
+.bpanel{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:28px;display:flex;flex-direction:column;gap:14px}
+.bpanel h3{font-family:var(--display);font-size:38px;margin:0;line-height:1}
+[dir=rtl] .bpanel h3{font-family:var(--ar);font-weight:800;font-size:30px}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kv div{background:var(--sand);border-radius:12px;padding:12px}
+.kv small{display:block;color:var(--muted);font-size:13px}.kv b{font-size:20px}
+.avail{display:flex;gap:6px;flex-wrap:wrap}
+/* appartements */
+.filters{display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:22px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{min-height:42px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);font:700 14px var(--body);cursor:pointer;color:var(--ink)}
+.chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.filters select{min-height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--paper);font:600 15px var(--body);padding:0 12px;color:var(--ink)}
+[dir=rtl] .filters select,[dir=rtl] .chip{font-family:var(--ar);font-size:15px}
+.tog{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;cursor:pointer;min-height:44px}
+.tog input{width:20px;height:20px;accent-color:var(--gold)}
+.count{margin-inline-start:auto;color:var(--muted);font-weight:600;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.unit{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:12px;cursor:pointer;transition:box-shadow .2s,transform .2s;text-align:start;font:inherit;color:inherit}
+.unit:hover{box-shadow:0 18px 40px rgba(15,36,48,.12);transform:translateY(-2px)}
+.unit .top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.unit .ref{font-weight:800;font-size:15px;color:var(--muted);letter-spacing:.04em}
+.st{font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;letter-spacing:.04em}
+[dir=rtl] .st{font-size:13px;letter-spacing:0}
+.st.d{background:#E3F1E7;color:var(--ok)}.st.r{background:#F7EBDD;color:var(--warn)}.st.v{background:#F3E1E1;color:var(--sold)}
+.unit h3{margin:0;font-family:var(--display);font-size:36px;line-height:1}
+[dir=rtl] .unit h3{font-family:var(--ar);font-weight:800;font-size:28px}
+.unit .meta{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:14px}
+.unit .meta span{display:flex;align-items:center;gap:6px}
+.unit .price{display:flex;justify-content:space-between;align-items:baseline;border-top:1px dashed var(--line);padding-top:12px}
+.unit .price b{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+.unit .price small{color:var(--muted);font-size:13px}
+.unit.sold{opacity:.6}
+.more{display:flex;justify-content:center;margin-top:26px}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px;background:#fff;border-radius:var(--r);border:1px dashed var(--line)}
+/* modal */
+dialog{border:0;border-radius:24px;padding:0;max-width:980px;width:calc(100% - 32px);box-shadow:0 40px 100px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(15,36,48,.6);backdrop-filter:blur(3px)}
+.mod{display:grid;grid-template-columns:1.2fr 1fr}
+.mod .pl{background:var(--sand);padding:28px;display:flex;flex-direction:column;gap:10px}
+.mod .pl svg{width:100%;height:auto;background:#fff;border-radius:14px}
+.mod .info{padding:28px;display:flex;flex-direction:column;gap:14px}
+.mod h3{margin:0;font-family:var(--display);font-size:42px;line-height:1}
+[dir=rtl] .mod h3{font-family:var(--ar);font-weight:800;font-size:32px}
+.mod dl{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;margin:0;font-size:15px}
+.mod dt{color:var(--muted)}.mod dd{margin:0;font-weight:700}
+.mod .big{font-size:30px;font-weight:800;font-variant-numeric:tabular-nums}
+.x{position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.15);font-size:22px;cursor:pointer}
+[dir=rtl] .x{right:auto;left:14px}
+/* simulateur */
+.sim{background:var(--ink);color:#fff;border-radius:28px;padding:44px;display:grid;grid-template-columns:1fr 1.1fr;gap:44px}
+.sim h2{color:#fff}.sim .sub{color:#B9C8CF}
+.tabs{display:flex;gap:6px;background:rgba(255,255,255,.08);padding:6px;border-radius:999px;width:max-content;max-width:100%}
+.tabs button{border:0;background:transparent;color:#C9D5DA;font:700 14px var(--body);padding:10px 18px;border-radius:999px;cursor:pointer;min-height:44px}
+[dir=rtl] .tabs button{font-family:var(--ar);font-size:15px}
+.tabs button[aria-selected=true]{background:var(--gold);color:#fff}
+.fld{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+.fld label{font-weight:700;font-size:14px;color:#DCE5E9;display:flex;justify-content:space-between}
+.fld label output{color:var(--gold-2)}
+.fld input[type=range]{width:100%;accent-color:var(--gold)}
+.fld input[type=number]{min-height:50px;border-radius:12px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font:700 18px var(--body);padding:0 14px;width:100%}
+.res{background:#fff;color:var(--ink);border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:14px}
+.res .hl{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-bottom:1px solid var(--line);padding-bottom:14px}
+.res .hl b{font-size:34px;font-weight:800;color:var(--sea);font-variant-numeric:tabular-nums}
+.sched{width:100%;border-collapse:collapse;font-size:15px}
+.sched td{padding:10px 0;border-bottom:1px dashed var(--line)}
+.sched td:last-child{text-align:end;white-space:nowrap;padding-inline-start:12px;font-weight:800;font-variant-numeric:tabular-nums}
+.sched small{display:block;color:var(--muted);font-size:13px}
+.note{font-size:13px;color:var(--muted);margin:0}
+/* avancement */
+.works{display:grid;grid-template-columns:1fr 1.3fr;gap:44px;align-items:center}
+.works .ph{border-radius:var(--r);overflow:hidden;position:relative}
+.works .ph img{aspect-ratio:3/4;object-fit:cover;width:100%}
+.live{position:absolute;top:16px;left:16px;background:#fff;border-radius:999px;padding:8px 14px;font-weight:800;font-size:13px;display:flex;gap:8px;align-items:center}
+[dir=rtl] .live{left:auto;right:16px}
+.live i{width:10px;height:10px;border-radius:50%;background:#D64545;box-shadow:0 0 0 4px rgba(214,69,69,.2)}
+.prog{display:flex;flex-direction:column;gap:18px}
+.pr{display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:center}
+.pr b{font-size:16px}.pr span{font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+.pr .bar{grid-column:1/-1;height:10px}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:10px}
+.stp{border-top:3px solid var(--line);padding-top:10px;font-size:14px}
+.stp.done{border-color:var(--ok)}.stp.now{border-color:var(--gold)}
+.stp b{display:block}.stp small{color:var(--muted)}
+/* galerie */
+.gal{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:220px;gap:14px}
+.gal button{border:0;padding:0;border-radius:14px;overflow:hidden;cursor:zoom-in;position:relative;background:#ddd}
+.gal img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.gal button:hover img{transform:scale(1.05)}
+.gal .g1{grid-column:span 4;grid-row:span 2}.gal .g2{grid-column:span 2;grid-row:span 2}.gal .g3,.gal .g4,.gal .g5{grid-column:span 2}
+.gal span{position:absolute;inset:auto 10px 10px auto;background:rgba(15,36,48,.85);color:#fff;font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px}
+[dir=rtl] .gal span{inset:auto auto 10px 10px}
+#lb{background:transparent;box-shadow:none;max-width:1200px}
+#lb img{border-radius:16px;max-height:84vh;margin:0 auto;width:auto}
+#lb p{color:#fff;text-align:center;font-weight:700}
+/* localisation */
+.loc{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+.map{border-radius:var(--r);overflow:hidden;background:#EAF2F4;border:1px solid var(--line)}
+.dist{display:flex;flex-direction:column;gap:10px}
+.di{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+.di svg{width:26px;height:26px;stroke:var(--sea);flex-shrink:0}
+.di b{margin-inline-start:auto;font-variant-numeric:tabular-nums;color:var(--sea)}
+/* faq */
+.faq{max-width:860px}
+details{border-bottom:1px solid var(--line);padding:18px 0}
+summary{cursor:pointer;font-weight:700;font-size:19px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:26px;color:var(--gold);line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin:12px 0 0}
+/* contact */
+.contact{background:var(--sand);border-radius:28px;padding:44px;display:grid;grid-template-columns:1fr 1.1fr;gap:40px}
+form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f{display:flex;flex-direction:column;gap:6px}.f.full{grid-column:1/-1}
+.f label{font-weight:700;font-size:14px}
+.f input,.f select,.f textarea{min-height:50px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font:500 16px var(--body);padding:10px 14px;color:var(--ink)}
+[dir=rtl] .f input,[dir=rtl] .f select,[dir=rtl] .f textarea{font-family:var(--ar)}
+.f textarea{min-height:100px;resize:vertical}
+form .btn{grid-column:1/-1}
+.err{grid-column:1/-1;color:var(--sold);margin:0;font-weight:600}
+.cinfo{display:flex;flex-direction:column;gap:14px}
+.cinfo div{background:#fff;border-radius:14px;padding:16px 18px}
+.cinfo small{display:block;color:var(--muted);font-size:13px;font-weight:600}
+footer{background:var(--ink);color:#C9D5DA;padding-block:40px;margin-top:96px;font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+footer b{color:#fff}
+.wa-float{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:50;width:62px;height:62px;border-radius:50%;background:#1F7A55;display:grid;place-items:center;box-shadow:0 14px 30px rgba(0,0,0,.3)}
+[dir=rtl] .wa-float{right:auto;left:20px}
+.wa-float svg{width:30px;height:30px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:none}
+/* responsive */
+@media (max-width:1060px){
+  .links{display:none}.menu-btn{display:grid;place-items:center}
+  .links.open{display:flex;position:absolute;top:76px;left:0;right:0;flex-direction:column;background:var(--paper);padding:16px 28px;border-bottom:1px solid var(--line);gap:14px}
+  .hero .wrap,.projet,.plan-wrap,.sim,.works,.loc,.contact,.mod{grid-template-columns:minmax(0,1fr)}
+  .hero-media{max-width:520px;margin:0 auto;width:100%}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .figs .wrap{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .fig:nth-child(3){border:0}
+}
+@media (max-width:640px){
+  .wrap{padding-inline:16px}
+  section{padding-block:64px}
+  .nav .btn.wa{display:none}
+  .grid,.duo,form{grid-template-columns:1fr}
+  .amen{gap:10px}.am{padding:12px;flex-direction:column;align-items:flex-start;gap:8px}
+  .brand b{font-size:20px;white-space:nowrap}.brand small{display:none}.brand svg{width:34px;height:34px}
+  .figs .wrap{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fig{border-bottom:1px solid rgba(255,255,255,.12)}
+  .f1{left:-6px}.f2{right:-6px}.f3{left:-6px}
+  .float{min-width:0;padding:10px 14px}.float b{font-size:18px}
+  .sim,.contact{padding:24px 18px;border-radius:20px}
+  .res .hl{flex-direction:column;align-items:flex-start;gap:2px}.res .hl b{font-size:28px}
+  .kv b{font-size:17px}.sched{font-size:14px}
+  .gal{grid-template-columns:1fr 1fr;grid-auto-rows:150px}
+  .gal .g1,.gal .g2{grid-column:span 2;grid-row:span 2}.gal .g3,.gal .g4,.gal .g5{grid-column:span 1}
+  .steps{grid-template-columns:1fr 1fr}
+  .count{width:100%;margin:0}
+  h1{font-size:54px}
+}
+</style>
+</head>
+<body>
+<div class="demo" data-i18n="demo">Site de démonstration réalisé par <b>Landify DZ</b> · Projet, prix et chiffres fictifs</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Azur Immobilier">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#0F2430"/><path d="M9 26c4-3 7-3 11 0s7 3 11 0" fill="none" stroke="#D7B26A" stroke-width="2.6" stroke-linecap="round"/><path d="M12 22V13l8-5 8 5v9" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/></svg>
+      <span><b>Azur Immobilier</b><small data-i18n="brandsub">Promotion immobilière</small></span>
+    </a>
+    <ul class="links" id="links">
+      <li><a href="#projet" data-i18n="n1">Le projet</a></li>
+      <li><a href="#plan" data-i18n="n2">Plan de masse</a></li>
+      <li><a href="#apparts" data-i18n="n3">Appartements</a></li>
+      <li><a href="#simulateur" data-i18n="n4">Simulateur</a></li>
+      <li><a href="#travaux" data-i18n="n5">Travaux</a></li>
+      <li><a href="#contact" data-i18n="n6">Contact</a></li>
+    </ul>
+    <div class="lang" role="group" aria-label="Langue">
+      <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+      <button type="button" data-lang="ar" aria-pressed="false">عربي</button>
+    </div>
+    <a class="btn wa" id="wa-head" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.6 7.3L3 20.5l1.7-5.2A8.4 8.4 0 1 1 21 11.5z"/></svg><span data-i18n="visit">Visite</span></a>
+    <button class="menu-btn" id="menu" aria-label="Menu" aria-expanded="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F2430" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <span class="kicker" data-i18n="kicker">Aïn Taya · Alger — Face à la mer</span>
+      <h1 data-i18n="h1">Les Terrasses <em>d'Azur</em></h1>
+      <p class="lead" data-i18n="lead">168 appartements haut standing, du F2 au F5, à 300 mètres de la plage. Jardins, piscine et parking en sous-sol, dans une résidence sécurisée.</p>
+      <div class="cta">
+        <a class="btn gold" href="#apparts" data-i18n="cta1">Choisir mon appartement</a>
+        <a class="btn ghost" href="#simulateur" data-i18n="cta2">Simuler mon paiement</a>
+      </div>
+    </div>
+    <div class="hero-media">
+      <div class="ph"><img src="img/residence-facade.jpg" alt="Façade d'une résidence moderne" width="1100" height="1400" data-i18n-alt="altHero"></div>
+      <div class="float f1"><small data-i18n="fl1">Livraison prévue</small><b data-i18n="fl1v">T4 2028</b></div>
+      <div class="float f2"><small data-i18n="fl2">Déjà vendus</small><b id="soldPct">62 %</b><div class="bar"><i id="soldBar" style="width:62%"></i></div></div>
+      <div class="float f3"><small data-i18n="fl3">À partir de</small><b id="fromPrice">12 900 000 DA</b></div>
+    </div>
+  </div>
+</div>
+<div class="figs">
+  <div class="wrap">
+    <div class="fig"><b>4</b><span data-i18n="fg1">bâtiments, R+6 à R+8</span></div>
+    <div class="fig"><b>168</b><span data-i18n="fg2">appartements</span></div>
+    <div class="fig"><b><bdi dir="ltr">F2–F5</bdi></b><span data-i18n="fg3">de 68 à 162 m²</span></div>
+    <div class="fig"><b><bdi dir="ltr">1,2 ha</bdi></b><span data-i18n="fg4">de jardins et piscine</span></div>
+    <div class="fig"><b><bdi dir="ltr">300 m</bdi></b><span data-i18n="fg5">de la plage</span></div>
+  </div>
+</div>
+
+<!-- PROJET -->
+<section id="projet">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="kicker" data-i18n="k2">Le projet</span><h2 data-i18n="h2a">Vivre face à la Méditerranée</h2><p class="sub" data-i18n="s2a">Quatre bâtiments orientés vers la mer, autour d'un jardin central et d'une piscine. Une architecture sobre, de grandes terrasses et des matériaux durables.</p></div>
+    <div class="projet">
+      <div class="reveal">
+        <div class="render"><img src="img/maquette-3d-aerienne.jpg" alt="Maquette 3D de la résidence vue du ciel" width="1600" height="900" data-i18n-alt="alt3d"><span class="tag3d" data-i18n="tag3d">MAQUETTE 3D</span></div>
+        <div class="duo">
+          <figure><img src="img/interieur-sejour.jpg" alt="Séjour lumineux" loading="lazy" width="1600" height="1067"><figcaption data-i18n="cap1">Séjour traversant, exemple d'aménagement</figcaption></figure>
+          <figure><img src="img/hall-residence.jpg" alt="Hall d'entrée" loading="lazy" width="1600" height="1067"><figcaption data-i18n="cap2">Hall d'entrée et espaces communs</figcaption></figure>
+        </div>
+      </div>
+      <div class="amen reveal" id="amen"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PLAN DE MASSE -->
+<section id="plan" style="background:var(--sand);">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="kicker" data-i18n="k3">Plan de masse interactif</span><h2 data-i18n="h2b">Choisissez votre bâtiment</h2><p class="sub" data-i18n="s2b">Cliquez sur un bâtiment pour voir ses étages, ses logements et les appartements encore disponibles.</p></div>
+    <div class="plan-wrap reveal">
+      <div class="plan">
+        <img src="img/plan-de-masse.jpg" alt="Plan de masse de la résidence" width="1200" height="760" data-i18n-alt="altPlan">
+        <span class="sea-lbl" data-i18n="sea">↑ MER MÉDITERRANÉE</span>
+        <button class="hot" data-b="A" style="left:12.5%;top:18%;width:22%;height:16%" aria-pressed="true"><span>A</span></button>
+        <button class="hot" data-b="B" style="left:65.5%;top:18%;width:22%;height:16%" aria-pressed="false"><span>B</span></button>
+        <button class="hot" data-b="C" style="left:12.5%;top:67%;width:22%;height:16%" aria-pressed="false"><span>C</span></button>
+        <button class="hot" data-b="D" style="left:65.5%;top:67%;width:22%;height:16%" aria-pressed="false"><span>D</span></button>
+      </div>
+      <div class="bpanel" id="bpanel" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- APPARTEMENTS -->
+<section id="apparts">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="kicker" data-i18n="k4">Appartements</span><h2 data-i18n="h2c">Trouvez votre appartement</h2><p class="sub" data-i18n="s2c">Filtrez par type, bâtiment ou vue mer. Cliquez sur un appartement pour voir son plan et son prix.</p></div>
+    <div class="filters">
+      <div class="chips" role="group" aria-label="Type" id="fType"></div>
+      <select id="fBat" aria-label="Bâtiment"></select>
+      <select id="fSort" aria-label="Tri"></select>
+      <label class="tog"><input type="checkbox" id="fSea"> <span data-i18n="fSea">Vue mer</span></label>
+      <label class="tog"><input type="checkbox" id="fAvail" checked> <span data-i18n="fAvail">Disponibles uniquement</span></label>
+      <span class="count" id="count" aria-live="polite"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="more"><button class="btn dark" id="moreBtn" data-i18n="more">Afficher plus</button></div>
+  </div>
+</section>
+
+<!-- SIMULATEUR -->
+<section id="simulateur" style="padding-top:0">
+  <div class="wrap">
+    <div class="sim reveal">
+      <div>
+        <span class="kicker" data-i18n="k5">Simulateur</span>
+        <h2 style="margin-top:12px" data-i18n="h2d">Combien je paie, et quand ?</h2>
+        <p class="sub" style="margin-top:12px" data-i18n="s2d">Vente sur plan avec paiement échelonné selon l'avancement des travaux, ou crédit immobilier bancaire.</p>
+        <div class="tabs" role="tablist" style="margin-top:26px">
+          <button role="tab" aria-selected="true" data-tab="vsp" data-i18n="tab1">Paiement échelonné</button>
+          <button role="tab" aria-selected="false" data-tab="credit" data-i18n="tab2">Crédit bancaire</button>
+        </div>
+        <div class="fld"><label for="sPrice"><span data-i18n="price">Prix du logement (DA)</span></label><input type="number" id="sPrice" min="1000000" step="100000" value="18500000"></div>
+        <div id="credFields" hidden>
+          <div class="fld"><label for="sApport"><span data-i18n="apport">Apport personnel</span><output id="oApport">30 %</output></label><input type="range" id="sApport" min="10" max="70" step="5" value="30"></div>
+          <div class="fld"><label for="sYears"><span data-i18n="years">Durée du crédit</span><output id="oYears">20 ans</output></label><input type="range" id="sYears" min="5" max="30" step="1" value="20"></div>
+          <div class="fld"><label for="sRate"><span data-i18n="rate">Taux annuel</span><output id="oRate">6,5 %</output></label><input type="range" id="sRate" min="1" max="9" step="0.25" value="6.5"></div>
+        </div>
+      </div>
+      <div class="res" id="simRes" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRAVAUX -->
+<section id="travaux" style="background:var(--sand);">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="kicker" data-i18n="k6">Avancement des travaux</span><h2 data-i18n="h2e">Le chantier, en toute transparence</h2><p class="sub" data-i18n="s2e">Mis à jour chaque mois, avec photos du chantier envoyées aux acquéreurs.</p></div>
+    <div class="works reveal">
+      <div class="ph"><img src="img/chantier-grue.jpg" alt="Grue sur le chantier" loading="lazy" width="900" height="1200"><span class="live"><i></i><span data-i18n="live">Chantier en cours · mis à jour le 01/10/2026</span></span></div>
+      <div>
+        <div class="prog" id="prog"></div>
+        <div class="steps" id="steps"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIE -->
+<section id="galerie">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="kicker" data-i18n="k7">Galerie</span><h2 data-i18n="h2f">La résidence en images</h2></div>
+    <div class="gal reveal" id="gal"></div>
+  </div>
+</section>
+
+<!-- LOCALISATION -->
+<section id="localisation" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="kicker" data-i18n="k8">Localisation</span><h2 data-i18n="h2g">Entre plage et ville</h2><p class="sub" data-i18n="s2g">Un emplacement calme en bord de mer, à quelques minutes des grands axes de l'Est algérois.</p></div>
+    <div class="loc reveal">
+      <div class="map">
+        <svg viewBox="0 0 640 420" role="img" aria-label="Carte schématique">
+          <rect width="640" height="420" fill="#EEF0EA"/>
+          <path d="M0 0H640V120C560 140 500 100 420 118S280 160 200 132 70 118 0 140Z" fill="#9CC9DA"/>
+          <path d="M0 140C70 118 120 140 200 132S340 92 420 118 560 140 640 120" fill="none" stroke="#E7D3A6" stroke-width="12"/>
+          <path d="M0 300C140 290 260 270 380 280S560 300 640 286" fill="none" stroke="#C9C3B5" stroke-width="16"/>
+          <path d="M0 300C140 290 260 270 380 280S560 300 640 286" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="10 10"/>
+          <path d="M300 160V420" stroke="#D8D2C3" stroke-width="10"/><path d="M120 150C150 220 170 300 160 420" stroke="#D8D2C3" stroke-width="8" fill="none"/>
+          <g font-family="Manrope,Arial" font-size="13" font-weight="700" fill="#1C3A4A">
+            <text x="24" y="60" fill="#fff" font-size="15" id="mSea">Mer Méditerranée</text>
+            <text x="420" y="320" id="mRoad">Autoroute de l'Est</text>
+          </g>
+          <g><circle cx="330" cy="178" r="34" fill="rgba(184,137,62,.25)"/><circle cx="330" cy="178" r="14" fill="#B8893E" stroke="#fff" stroke-width="4"/></g>
+          <g font-family="Manrope,Arial" font-size="12" font-weight="700" fill="#0F2430">
+            <rect x="350" y="150" width="150" height="28" rx="14" fill="#0F2430"/><text x="425" y="169" text-anchor="middle" fill="#fff" id="mRes">Les Terrasses d'Azur</text>
+          </g>
+          <g fill="#1F5F7A"><circle cx="210" cy="232" r="7"/><circle cx="470" cy="226" r="7"/><circle cx="540" cy="360" r="7"/><circle cx="110" cy="250" r="7"/></g>
+          <g font-family="Manrope,Arial" font-size="12" font-weight="600" fill="#1C3A4A">
+            <text x="222" y="236" id="m1">Centre-ville</text><text x="482" y="230" id="m2">École</text><text x="552" y="364" id="m3">Aéroport →</text><text x="40" y="270" id="m4">Marché</text>
+          </g>
+        </svg>
+      </div>
+      <div class="dist" id="dist"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="background:var(--sand);">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="kicker" data-i18n="k9">Questions fréquentes</span><h2 data-i18n="h2h">Acheter sur plan, simplement</h2></div>
+    <div class="faq" id="faqList"></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact reveal">
+      <div>
+        <span class="kicker" data-i18n="k10">Bureau de vente</span>
+        <h2 style="margin-top:12px" data-i18n="h2i">Réservez une visite</h2>
+        <p class="sub" style="margin:12px 0 24px" data-i18n="s2i">Visite du bureau de vente et de l'appartement témoin, sur rendez-vous. Votre demande est préparée dans WhatsApp.</p>
+        <div class="cinfo">
+          <div><small data-i18n="ci1">Adresse</small><b data-i18n="ci1v">Route du front de mer, Aïn Taya, Alger</b></div>
+          <div><small data-i18n="ci2">Horaires</small><b data-i18n="ci2v">Samedi – jeudi, 9h – 17h</b></div>
+          <div><small>WhatsApp</small><b dir="ltr">+213 549 87 33 20</b></div>
+        </div>
+      </div>
+      <form id="form" novalidate>
+        <div class="f"><label for="cName" data-i18n="fName">Nom et prénom</label><input id="cName" autocomplete="name" required></div>
+        <div class="f"><label for="cTel" data-i18n="fTel">Téléphone</label><input id="cTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="05 xx xx xx xx" required dir="ltr"></div>
+        <div class="f"><label for="cType" data-i18n="fType">Type recherché</label><select id="cType"><option>F2</option><option selected>F3</option><option>F4</option><option>F5</option></select></div>
+        <div class="f"><label for="cWhen" data-i18n="fWhen">Visite souhaitée</label><select id="cWhen"></select></div>
+        <div class="f full"><label for="cMsg" data-i18n="fMsg">Message</label><textarea id="cMsg" data-i18n-ph="fMsgPh" placeholder="Étage, vue mer, financement…"></textarea></div>
+        <p class="err" id="err" hidden></p>
+        <button class="btn wa" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.6 7.3L3 20.5l1.7-5.2A8.4 8.4 0 1 1 21 11.5z"/></svg><span data-i18n="send">Envoyer ma demande sur WhatsApp</span></button>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><b>Azur Immobilier</b> · <span data-i18n="ft1">Les Terrasses d'Azur, Aïn Taya — projet fictif</span></span>
+    <span data-i18n="ft2">Site réalisé par <b>Landify DZ</b> · Devis gratuit : 0549 87 33 20</span>
+  </div>
+</footer>
+
+<a class="wa-float" id="wa-float" href="#" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.6 7.3L3 20.5l1.7-5.2A8.4 8.4 0 1 1 21 11.5z"/></svg></a>
+
+<dialog id="dlg"><div style="position:relative"><button class="x" id="dlgX" aria-label="Fermer">×</button><div class="mod" id="dlgBody"></div></div></dialog>
+<dialog id="lb"><div><img id="lbImg" alt=""><p id="lbCap"></p></div></dialog>
+
+<script>
+const WA = "213549873320";
+const wa = t => "https://wa.me/" + WA + "?text=" + encodeURIComponent(t);
+let LANG = "fr";
+const I = {
+ fr:{demo:'Site de démonstration réalisé par <b>Landify DZ</b> · Projet, prix et chiffres fictifs',brandsub:'Promotion immobilière',n1:'Le projet',n2:'Plan de masse',n3:'Appartements',n4:'Simulateur',n5:'Travaux',n6:'Contact',visit:'Visite',
+  kicker:"Aïn Taya · Alger — Face à la mer",h1:"Les Terrasses <em>d'Azur</em>",lead:"168 appartements haut standing, du F2 au F5, à 300 mètres de la plage. Jardins, piscine et parking en sous-sol, dans une résidence sécurisée.",cta1:'Choisir mon appartement',cta2:'Simuler mon paiement',altHero:"Façade d'une résidence moderne",
+  fl1:'Livraison prévue',fl1v:'T4 2028',fl2:'Déjà vendus',fl3:'À partir de',fg1:'bâtiments, R+6 à R+8',fg2:'appartements',fg3:'de 68 à 162 m²',fg4:'de jardins et piscine',fg5:'de la plage',
+  k2:'Le projet',h2a:'Vivre face à la Méditerranée',s2a:"Quatre bâtiments orientés vers la mer, autour d'un jardin central et d'une piscine. Une architecture sobre, de grandes terrasses et des matériaux durables.",tag3d:'MAQUETTE 3D',alt3d:'Maquette 3D de la résidence vue du ciel',cap1:"Séjour traversant, exemple d'aménagement",cap2:"Hall d'entrée et espaces communs",
+  k3:'Plan de masse interactif',h2b:'Choisissez votre bâtiment',s2b:'Cliquez sur un bâtiment pour voir ses étages, ses logements et les appartements encore disponibles.',sea:'↑ MER MÉDITERRANÉE',altPlan:'Plan de masse de la résidence',
+  k4:'Appartements',h2c:'Trouvez votre appartement',s2c:'Filtrez par type, bâtiment ou vue mer. Cliquez sur un appartement pour voir son plan et son prix.',fSea:'Vue mer',fAvail:'Disponibles uniquement',more:'Afficher plus',
+  k5:'Simulateur',h2d:'Combien je paie, et quand ?',s2d:"Vente sur plan avec paiement échelonné selon l'avancement des travaux, ou crédit immobilier bancaire.",tab1:'Paiement échelonné',tab2:'Crédit bancaire',price:'Prix du logement (DA)',apport:'Apport personnel',years:'Durée du crédit',rate:'Taux annuel',
+  k6:'Avancement des travaux',h2e:'Le chantier, en toute transparence',s2e:'Mis à jour chaque mois, avec photos du chantier envoyées aux acquéreurs.',live:'Chantier en cours · mis à jour le 01/10/2026',
+  k7:'Galerie',h2f:'La résidence en images',k8:'Localisation',h2g:'Entre plage et ville',s2g:"Un emplacement calme en bord de mer, à quelques minutes des grands axes de l'Est algérois.",
+  k9:'Questions fréquentes',h2h:'Acheter sur plan, simplement',k10:'Bureau de vente',h2i:'Réservez une visite',s2i:"Visite du bureau de vente et de l'appartement témoin, sur rendez-vous. Votre demande est préparée dans WhatsApp.",
+  ci1:'Adresse',ci1v:'Route du front de mer, Aïn Taya, Alger',ci2:'Horaires',ci2v:'Samedi – jeudi, 9h – 17h',fName:'Nom et prénom',fTel:'Téléphone',fType:'Type recherché',fWhen:'Visite souhaitée',fMsg:'Message',fMsgPh:'Étage, vue mer, financement…',send:'Envoyer ma demande sur WhatsApp',
+  ft1:"Les Terrasses d'Azur, Aïn Taya — projet fictif",ft2:'Site réalisé par <b>Landify DZ</b> · Devis gratuit : 0549 87 33 20',
+  all:'Tous',allB:'Tous les bâtiments',bat:'Bâtiment',sortP:'Prix croissant',sortPd:'Prix décroissant',sortS:'Surface',sortF:'Étage',
+  st_d:'Disponible',st_r:'Réservé',st_v:'Vendu',floor:'Étage',rdc:'RDC',m2:'m²',seaView:'Vue mer',garden:'Vue jardin',rooms:'pièces',from:'à partir de',
+  shown:(n,t)=>`${n} appartement${n>1?'s':''} sur ${t}`,none:'Aucun appartement ne correspond. Essayez un autre filtre.',
+  dlgPlan:'Plan indicatif',ref:'Référence',type:'Type',surface:'Surface habitable',terrace:'Terrasse',expo:'Orientation',stat:'Statut',bookVisit:'Réserver une visite',simulate:'Simuler ce bien',
+  waUnit:u=>`Bonjour Azur Immobilier, je suis intéressé(e) par l'appartement ${u.ref} (${u.type}, ${u.s} m², ${u.fl}) aux Terrasses d'Azur. Est-il possible de le visiter ?`,
+  bTitle:b=>`Bâtiment ${b}`,bFloors:'Niveaux',bUnits:'Logements',bAvail:'Disponibles',bView:'Orientation',front:'Face mer',back:'Côté jardin',seeUnits:'Voir les appartements',bTypes:'Types disponibles',
+  vspT:'Échéancier de paiement',vsp:[['À la signature du contrat (VSP)','Octobre 2026',.30],['Fin du gros œuvre','T3 2027',.25],['Fin des corps d\'état secondaires','T2 2028',.25],['Remise des clés','T4 2028',.20]],
+  monthly:'Mensualité estimée',loan:'Montant emprunté',apportA:'Apport',totalCost:'Coût total du crédit',permonth:'/ mois',note:'Simulation indicative, sans frais de notaire ni assurance. Les conditions dépendent de votre banque.',
+  prog:[['Terrassement et fondations',100],['Gros œuvre — Bâtiments A et B',78],['Gros œuvre — Bâtiments C et D',46],['Corps d\'état secondaires',12],['Aménagements extérieurs',0]],
+  steps:[['Lancement','Jan. 2026','done'],['Gros œuvre','En cours','now'],['Finitions','2028',''],['Livraison','T4 2028','']],
+  gal:['Maquette 3D — vue aérienne','Façade, exemple de finition','Maquette 3D — coucher de soleil','Séjour, exemple d\'aménagement','Hall d\'entrée','Plan de masse'],
+  dist:[['Plage','300 m'],['Centre-ville d\'Aïn Taya','5 min'],['École primaire et CEM','800 m'],['Autoroute de l\'Est','10 min'],['Aéroport d\'Alger','≈ 25 min']],
+  map:{sea:'Mer Méditerranée',road:"Autoroute de l'Est",res:"Les Terrasses d'Azur",m1:'Centre-ville',m2:'École',m3:'Aéroport →',m4:'Marché'},
+  amen:[['Piscine et jardins','1,2 ha paysagés'],['Parking sous-sol','2 niveaux, accès badge'],['Sécurité 24/7','Gardiennage et caméras'],['Ascenseurs','2 par bâtiment'],['Grandes terrasses','Jusqu\'à 24 m²'],['Isolation','Thermique et phonique'],['Aire de jeux','Pour les enfants'],['Locaux commerciaux','Au pied des immeubles']],
+  faq:[['Qu\'est-ce que la vente sur plan (VSP) ?','Vous achetez un logement en construction. Le contrat est signé chez le notaire et vous payez par tranches, au rythme de l\'avancement des travaux.'],['Puis-je financer avec un crédit bancaire ?','Oui. Nous vous accompagnons dans le montage du dossier avec les banques partenaires. Utilisez le simulateur pour estimer votre mensualité.'],['Quand vais-je recevoir les clés ?','La livraison est prévue au 4e trimestre 2028. Vous recevez chaque mois les photos de l\'avancement du chantier.'],['Puis-je choisir mes finitions ?','Oui, parmi trois ambiances (carrelage, cuisine, salle de bain), jusqu\'à la fin du gros œuvre.'],['Comment réserver un appartement ?','Choisissez-le dans la liste, réservez une visite sur WhatsApp, puis signez le contrat de réservation au bureau de vente.']],
+  whenOpts:['Cette semaine','Samedi prochain','Dans 2 semaines','Je préfère qu\'on m\'appelle'],errMsg:'Indiquez votre nom et votre téléphone pour continuer.',
+  waForm:f=>`Bonjour Azur Immobilier, je souhaite visiter Les Terrasses d'Azur.\nNom : ${f.n}\nTéléphone : ${f.t}\nType recherché : ${f.ty}\nVisite : ${f.w}${f.m?'\nMessage : '+f.m:''}`,
+  waHead:"Bonjour Azur Immobilier, je souhaite des informations sur Les Terrasses d'Azur.",
+  expoV:{N:'Nord (mer)',S:'Sud (jardin)',NE:'Nord-Est (mer)',SO:'Sud-Ouest (jardin)'},roomsL:{sej:'Séjour',cui:'Cuisine',ch:'Chambre',sdb:'SdB',wc:'WC',ter:'Terrasse',ent:'Entrée',dres:'Dressing',bur:'Bureau'},years:'ans'
+ },
+ ar:{demo:'موقع تجريبي من إنجاز <b>Landify DZ</b> · المشروع والأسعار والأرقام وهمية',brandsub:'الترقية العقارية',n1:'المشروع',n2:'المخطط العام',n3:'الشقق',n4:'المحاكي',n5:'الأشغال',n6:'اتصل بنا',visit:'زيارة',
+  kicker:'عين طاية · الجزائر العاصمة — مقابل البحر',h1:'شرفات <em>أزور</em>',lead:'168 شقة راقية من F2 إلى F5، على بعد 300 متر من الشاطئ. حدائق ومسبح وموقف سيارات تحت الأرض، في إقامة محروسة.',cta1:'اختر شقتك',cta2:'احسب طريقة الدفع',altHero:'واجهة إقامة عصرية',
+  fl1:'التسليم المتوقع',fl1v:'الثلاثي 4 · 2028',fl2:'تم بيعها',fl3:'ابتداءً من',fg1:'عمارات من 6 إلى 8 طوابق',fg2:'شقة',fg3:'من 68 إلى 162 م²',fg4:'حدائق ومسبح',fg5:'من الشاطئ',
+  k2:'المشروع',h2a:'عِش مقابل البحر الأبيض المتوسط',s2a:'أربع عمارات مطلة على البحر، حول حديقة مركزية ومسبح. هندسة أنيقة، شرفات واسعة ومواد متينة.',tag3d:'مجسم ثلاثي الأبعاد',alt3d:'مجسم ثلاثي الأبعاد للإقامة من الأعلى',cap1:'صالون مضيء، مثال للتهيئة',cap2:'بهو المدخل والفضاءات المشتركة',
+  k3:'المخطط العام التفاعلي',h2b:'اختر عمارتك',s2b:'اضغط على عمارة لرؤية طوابقها وشققها والشقق المتاحة.',sea:'↑ البحر الأبيض المتوسط',altPlan:'المخطط العام للإقامة',
+  k4:'الشقق',h2c:'ابحث عن شقتك',s2c:'صفِّ حسب النوع أو العمارة أو الإطلالة على البحر. اضغط على شقة لرؤية المخطط والسعر.',fSea:'إطلالة على البحر',fAvail:'المتاحة فقط',more:'عرض المزيد',
+  k5:'المحاكي',h2d:'كم أدفع ومتى؟',s2d:'البيع على التصاميم بالدفع على أقساط حسب تقدم الأشغال، أو قرض عقاري بنكي.',tab1:'الدفع بالتقسيط',tab2:'قرض بنكي',price:'سعر الشقة (دج)',apport:'المساهمة الشخصية',years:'مدة القرض',rate:'نسبة الفائدة السنوية',
+  k6:'تقدم الأشغال',h2e:'الورشة بكل شفافية',s2e:'تحديث كل شهر مع صور الورشة لكل المشترين.',live:'الأشغال جارية · آخر تحديث 01/10/2026',
+  k7:'معرض الصور',h2f:'الإقامة بالصور',k8:'الموقع',h2g:'بين الشاطئ والمدينة',s2g:'موقع هادئ على البحر، على بعد دقائق من أهم الطرق شرق العاصمة.',
+  k9:'أسئلة شائعة',h2h:'الشراء على التصاميم ببساطة',k10:'مكتب البيع',h2i:'احجز زيارة',s2i:'زيارة مكتب البيع والشقة النموذجية بموعد. طلبك يُحضَّر مباشرة في واتساب.',
+  ci1:'العنوان',ci1v:'طريق الواجهة البحرية، عين طاية، الجزائر',ci2:'أوقات العمل',ci2v:'من السبت إلى الخميس، 9 سا – 17 سا',fName:'الاسم واللقب',fTel:'رقم الهاتف',fType:'نوع الشقة',fWhen:'موعد الزيارة',fMsg:'رسالة',fMsgPh:'الطابق، الإطلالة، التمويل…',send:'أرسل طلبي عبر واتساب',
+  ft1:'شرفات أزور، عين طاية — مشروع وهمي',ft2:'موقع من إنجاز <b>Landify DZ</b> · الدوفي مجاني: 0549 87 33 20',
+  all:'الكل',allB:'كل العمارات',bat:'عمارة',sortP:'السعر: من الأقل',sortPd:'السعر: من الأعلى',sortS:'المساحة',sortF:'الطابق',
+  st_d:'متاحة',st_r:'محجوزة',st_v:'مباعة',floor:'الطابق',rdc:'الأرضي',m2:'م²',seaView:'إطلالة بحرية',garden:'إطلالة على الحديقة',rooms:'غرف',from:'ابتداءً من',
+  shown:(n,t)=>`${n} شقة من أصل ${t}`,none:'لا توجد شقة تطابق اختيارك. جرّب فلترًا آخر.',
+  dlgPlan:'مخطط تقريبي',ref:'المرجع',type:'النوع',surface:'المساحة',terrace:'الشرفة',expo:'الاتجاه',stat:'الحالة',bookVisit:'احجز زيارة',simulate:'احسب الدفع',
+  waUnit:u=>`السلام عليكم، أنا مهتم بالشقة ${u.ref} (${u.type}، ${u.s} م²) في إقامة شرفات أزور. هل يمكنني زيارتها؟`,
+  bTitle:b=>`العمارة ${b}`,bFloors:'الطوابق',bUnits:'الشقق',bAvail:'المتاحة',bView:'الاتجاه',front:'مقابل البحر',back:'جهة الحديقة',seeUnits:'عرض الشقق',bTypes:'الأنواع المتاحة',
+  vspT:'جدول الدفع',vsp:[['عند إمضاء عقد البيع على التصاميم','أكتوبر 2026',.30],['نهاية الأشغال الكبرى','الثلاثي 3 · 2027',.25],['نهاية أشغال التشطيب','الثلاثي 2 · 2028',.25],['تسليم المفاتيح','الثلاثي 4 · 2028',.20]],
+  monthly:'القسط الشهري التقريبي',loan:'مبلغ القرض',apportA:'المساهمة',totalCost:'التكلفة الإجمالية للقرض',permonth:'/ شهريًا',note:'حساب تقريبي دون مصاريف الموثق والتأمين. الشروط تختلف حسب البنك.',
+  prog:[['الحفر والأساسات',100],['الأشغال الكبرى — العمارتان A و B',78],['الأشغال الكبرى — العمارتان C و D',46],['أشغال التشطيب',12],['التهيئة الخارجية',0]],
+  steps:[['الانطلاق','جانفي 2026','done'],['الأشغال الكبرى','جارية','now'],['التشطيبات','2028',''],['التسليم','الثلاثي 4 · 2028','']],
+  gal:['مجسم ثلاثي الأبعاد — منظر جوي','الواجهة، مثال للتشطيب','مجسم ثلاثي الأبعاد — عند الغروب','الصالون، مثال للتهيئة','بهو المدخل','المخطط العام'],
+  dist:[['الشاطئ','300 م'],['وسط مدينة عين طاية','5 دقائق'],['المدرسة والمتوسطة','800 م'],['الطريق السريع شرق','10 دقائق'],['مطار الجزائر','≈ 25 دقيقة']],
+  map:{sea:'البحر الأبيض المتوسط',road:'الطريق السريع شرق',res:'شرفات أزور',m1:'وسط المدينة',m2:'مدرسة',m3:'← المطار',m4:'السوق'},
+  amen:[['مسبح وحدائق','1.2 هكتار من المساحات الخضراء'],['موقف تحت الأرض','طابقان، دخول بالبطاقة'],['حراسة 24/24','حراس وكاميرات'],['مصاعد','اثنان في كل عمارة'],['شرفات واسعة','حتى 24 م²'],['عزل','حراري وصوتي'],['فضاء ألعاب','للأطفال'],['محلات تجارية','أسفل العمارات']],
+  faq:[['ما هو البيع على التصاميم؟','تشتري شقة في طور الإنجاز. يُمضى العقد عند الموثق وتدفع على أقساط حسب تقدم الأشغال.'],['هل يمكنني الشراء بقرض بنكي؟','نعم، نرافقك في تحضير الملف مع البنوك الشريكة. استعمل المحاكي لمعرفة القسط الشهري.'],['متى أستلم المفاتيح؟','التسليم مبرمج في الثلاثي الرابع من 2028، وتصلك صور تقدم الأشغال كل شهر.'],['هل يمكنني اختيار التشطيبات؟','نعم، من بين ثلاثة أنماط (البلاط، المطبخ، الحمام) إلى غاية نهاية الأشغال الكبرى.'],['كيف أحجز شقة؟','اخترها من القائمة، احجز زيارة عبر واتساب، ثم أمضِ عقد الحجز في مكتب البيع.']],
+  whenOpts:['هذا الأسبوع','السبت القادم','بعد أسبوعين','أفضل أن تتصلوا بي'],errMsg:'اكتب اسمك ورقم هاتفك للمواصلة.',
+  waForm:f=>`السلام عليكم، أريد زيارة إقامة شرفات أزور.\nالاسم: ${f.n}\nالهاتف: ${f.t}\nنوع الشقة: ${f.ty}\nالزيارة: ${f.w}${f.m?'\nرسالة: '+f.m:''}`,
+  waHead:'السلام عليكم، أريد معلومات حول إقامة شرفات أزور.',
+  expoV:{N:'شمال (البحر)',S:'جنوب (الحديقة)',NE:'شمال شرق (البحر)',SO:'جنوب غرب (الحديقة)'},roomsL:{sej:'الصالون',cui:'المطبخ',ch:'غرفة',sdb:'الحمام',wc:'المرحاض',ter:'الشرفة',ent:'المدخل',dres:'خزانة',bur:'مكتب'},years:'سنة'
+ }};
+const t=k=>I[LANG][k];
+const fmt=n=>Math.round(n).toLocaleString('fr-FR').replace(/[\s\u202f\u00a0]/g,'\u00a0')+(LANG==='ar'?'\u00a0دج':' DA');
+
+/* ---------- data ---------- */
+const TYPES={F2:{s:[68,74],base:12900000,ter:[8,12]},F3:{s:[92,104],base:17600000,ter:[10,16]},F4:{s:[118,132],base:23500000,ter:[14,20]},F5:{s:[148,162],base:30900000,ter:[18,24]}};
+const BLD={A:{floors:8,front:true},B:{floors:8,front:true},C:{floors:6,front:false},D:{floors:6,front:false}};
+let sd=42;const R=()=>{sd=(sd*16807)%2147483647;return sd/2147483647};
+const UNITS=[];
+for(const b of Object.keys(BLD)){const B=BLD[b];
+  for(let f=1;f<=B.floors;f++){const layout=['F2','F3','F4','F3','F5','F2'];
+    layout.forEach((ty,i)=>{const T=TYPES[ty];const s=Math.round(T.s[0]+R()*(T.s[1]-T.s[0]));const sea=B.front?(i<4):(i===0&&f>=5);
+      const expo=B.front?(i<4?(i%2?'NE':'N'):'S'):(sea?'NE':(i%2?'SO':'S'));
+      let p=T.base*(s/T.s[0])*(1+0.012*(f-1))*(sea?1.09:1);p=Math.round(p/50000)*50000;
+      const r=R();const st=r<0.6?'v':(r<0.7?'r':'d');
+      UNITS.push({ref:`${b}-${f}0${i+1}`,b,f,type:ty,s,ter:Math.round(T.ter[0]+R()*(T.ter[1]-T.ter[0])),sea,expo,price:p,st})});}}
+const TOTAL=UNITS.length;
+const soldPct=Math.round(UNITS.filter(u=>u.st==='v').length/TOTAL*100);
+document.getElementById('soldPct').textContent=soldPct+' %';document.getElementById('soldBar').style.width=soldPct+'%';
+
+/* ---------- floor plans (SVG) ---------- */
+const PLANS={
+ F2:[['sej',0,0,220,150],['cui',220,0,110,90],['sdb',220,90,60,60],['wc',280,90,50,60],['ch',0,150,170,130],['ent',170,150,160,130],['ter',-0,-60,220,60,1]],
+ F3:[['sej',0,0,230,150],['cui',230,0,120,100],['ent',230,100,120,60],['ch',0,150,150,130],['ch',150,150,120,130],['sdb',270,160,80,70],['wc',270,230,80,50],['ter',0,-60,230,60,1]],
+ F4:[['sej',0,0,250,160],['cui',250,0,130,100],['ent',250,100,130,60],['ch',0,160,130,130],['ch',130,160,120,130],['ch',250,160,130,130],['sdb',380,160,70,80],['wc',380,240,70,50],['ter',0,-60,250,60,1],['dres',380,0,70,160]],
+ F5:[['sej',0,0,280,170],['cui',280,0,130,110],['ent',280,110,130,60],['bur',410,0,90,170],['ch',0,170,130,130],['ch',130,170,130,130],['ch',260,170,120,130],['ch',380,170,120,130],['sdb',500,170,70,70],['wc',500,240,70,60],['ter',0,-60,280,60,1],['dres',500,0,70,170]]};
+function planSVG(type,s,ts){const P=PLANS[type];const inA=P.filter(p=>!p[5]).reduce((a,p)=>a+p[3]*p[4],0)*1.08;const maxX=Math.max(...P.map(p=>p[1]+p[3])),minY=-60,maxY=Math.max(...P.map(p=>p[2]+p[4]));const W=maxX+40,H=maxY-minY+70;let n=0;
+ let g=`<svg viewBox="-20 ${minY-20} ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${t('dlgPlan')} ${type}">`;
+ P.forEach(([k,x,y,w,h,ter])=>{const lbl=t('roomsL')[k]+(k==='ch'?' '+(++n):'');const fill=ter?'#E6F0F3':(k==='sej'?'#FBF6EC':'#fff');
+  g+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill}" stroke="#0F2430" stroke-width="${ter?2:5}" ${ter?'stroke-dasharray="8 6"':''}/>`;
+  const area=ter?(ts||Math.round(w*h/1300)):Math.round(w*h/inA*s*10)/10;
+  g+=`<text x="${x+w/2}" y="${y+h/2-4}" text-anchor="middle" font-family="${LANG==='ar'?'Tajawal':'Manrope'},Arial" font-size="15" font-weight="700" fill="#0F2430">${lbl}</text>`;
+  g+=`<text x="${x+w/2}" y="${y+h/2+16}" text-anchor="middle" font-family="Manrope,Arial" font-size="12" fill="#5D6F78">${area} m²</text>`;});
+ g+=`<text x="${maxX}" y="${maxY+28}" text-anchor="end" font-family="Manrope,Arial" font-size="13" font-weight="700" fill="#B8893E">${type} · ${s} m²</text></svg>`;return g}
+
+/* ---------- i18n apply ---------- */
+function applyLang(){
+ document.documentElement.lang=LANG;document.documentElement.dir=LANG==='ar'?'rtl':'ltr';
+ document.querySelectorAll('[data-i18n]').forEach(e=>{const v=t(e.dataset.i18n);if(typeof v==='string')e.innerHTML=v});
+ document.querySelectorAll('[data-i18n-alt]').forEach(e=>e.alt=t(e.dataset.i18nAlt));
+ document.querySelectorAll('[data-i18n-ph]').forEach(e=>e.placeholder=t(e.dataset.i18nPh));
+ document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===LANG)));
+ const m=t('map');['sea','road','res','m1','m2','m3','m4'].forEach(k=>{const el=document.getElementById(k==='sea'?'mSea':k==='road'?'mRoad':k==='res'?'mRes':k);if(el)el.textContent=m[k]});
+ document.getElementById('fromPrice').textContent=fmt(Math.min(...UNITS.map(u=>u.price)));
+ document.getElementById('wa-head').href=wa(t('waHead'));document.getElementById('wa-float').href=wa(t('waHead'));
+ buildAmen();buildFilters();renderUnits(true);showB(curB);buildSim();renderSim();buildWorks();buildGal();buildDist();buildFaq();buildWhen();
+}
+document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>{LANG=b.dataset.lang;applyLang()}));
+
+/* ---------- amenities ---------- */
+const AIC=['M3 12c3-3 6-3 9 0s6 3 9 0M3 17c3-3 6-3 9 0s6 3 9 0','M3 21V8l9-5 9 5v13M7 21v-6h10v6','M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z','M6 3h12v18H6zM10 8l2-2 2 2M10 16l2 2 2-2','M3 10h18M5 10v10M19 10v10M3 20h18M8 6h8','M4 12h16M12 4v16M6 6l12 12M18 6L6 18','M12 4a3 3 0 1 1 0 6 3 3 0 0 1 0-6zM6 21v-4a6 6 0 0 1 12 0v4','M3 9l2-5h14l2 5M4 9v11h16V9M9 20v-6h6v6'];
+function buildAmen(){document.getElementById('amen').innerHTML=t('amen').map((a,i)=>`<div class="am"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${AIC[i]}"/></svg><div><b>${a[0]}</b><small>${a[1]}</small></div></div>`).join('')}
+
+/* ---------- plan de masse ---------- */
+let curB='A';
+function showB(b){curB=b;document.querySelectorAll('.hot').forEach(h=>h.setAttribute('aria-pressed',String(h.dataset.b===b)));
+ const us=UNITS.filter(u=>u.b===b),av=us.filter(u=>u.st==='d');const types=[...new Set(av.map(u=>u.type))].sort();
+ document.getElementById('bpanel').innerHTML=`<span class="kicker">${BLD[b].front?t('front'):t('back')}</span><h3>${t('bTitle')(b)}</h3>
+  <div class="kv"><div><small>${t('bFloors')}</small><b>R+${BLD[b].floors}</b></div><div><small>${t('bUnits')}</small><b>${us.length}</b></div><div><small>${t('bAvail')}</small><b style="color:var(--ok)">${av.length}</b></div><div><small>${t('fl3')}</small><b>${av.length?fmt(Math.min(...av.map(u=>u.price))):'—'}</b></div></div>
+  <div><small style="color:var(--muted);font-weight:600">${t('bTypes')}</small><div class="avail" style="margin-top:6px">${types.map(x=>`<span class="st d">${x}</span>`).join('')||'—'}</div></div>
+  <button class="btn gold" id="seeB">${t('seeUnits')}</button>`;
+ document.getElementById('seeB').onclick=()=>{F.b=b;document.getElementById('fBat').value=b;renderUnits(true);document.getElementById('apparts').scrollIntoView()}}
+document.querySelectorAll('.hot').forEach(h=>h.addEventListener('click',()=>showB(h.dataset.b)));
+
+/* ---------- appartements ---------- */
+const F={type:'all',b:'all',sea:false,avail:true,sort:'p'};let shown=12;
+function buildFilters(){
+ document.getElementById('fType').innerHTML=['all','F2','F3','F4','F5'].map(x=>`<button class="chip" data-t="${x}" aria-pressed="${F.type===x}">${x==='all'?t('all'):x}</button>`).join('');
+ document.querySelectorAll('#fType .chip').forEach(c=>c.onclick=()=>{F.type=c.dataset.t;document.querySelectorAll('#fType .chip').forEach(x=>x.setAttribute('aria-pressed',String(x===c)));renderUnits(true)});
+ const fb=document.getElementById('fBat');fb.innerHTML=`<option value="all">${t('allB')}</option>`+Object.keys(BLD).map(b=>`<option value="${b}">${t('bat')} ${b}</option>`).join('');fb.value=F.b;
+ const fs=document.getElementById('fSort');fs.innerHTML=[['p',t('sortP')],['pd',t('sortPd')],['s',t('sortS')],['f',t('sortF')]].map(([v,l])=>`<option value="${v}">${l}</option>`).join('');fs.value=F.sort;}
+document.getElementById('fBat').onchange=e=>{F.b=e.target.value;renderUnits(true)};
+document.getElementById('fSort').onchange=e=>{F.sort=e.target.value;renderUnits(true)};
+document.getElementById('fSea').onchange=e=>{F.sea=e.target.checked;renderUnits(true)};
+document.getElementById('fAvail').onchange=e=>{F.avail=e.target.checked;renderUnits(true)};
+document.getElementById('moreBtn').onclick=()=>{shown+=12;renderUnits(false)};
+const floorL=f=>`${t('floor')} ${f}`;
+function list(){let l=UNITS.filter(u=>(F.type==='all'||u.type===F.type)&&(F.b==='all'||u.b===F.b)&&(!F.sea||u.sea)&&(!F.avail||u.st==='d'));
+ const k={p:(a,b)=>a.price-b.price,pd:(a,b)=>b.price-a.price,s:(a,b)=>b.s-a.s,f:(a,b)=>b.f-a.f}[F.sort];return l.sort(k)}
+function renderUnits(reset){if(reset)shown=12;const l=list();const g=document.getElementById('grid');
+ document.getElementById('count').textContent=t('shown')(l.length,TOTAL);
+ g.innerHTML=l.length?l.slice(0,shown).map(u=>`<button class="unit ${u.st==='v'?'sold':''}" data-ref="${u.ref}">
+   <div class="top"><span class="ref">${u.ref}</span><span class="st ${u.st}">${t('st_'+u.st)}</span></div>
+   <h3><bdi>${u.type}</bdi> · <bdi>${u.s} ${t('m2')}</bdi></h3>
+   <div class="meta"><span>${floorL(u.f)}</span><span>${t('bat')} ${u.b}</span><span>${u.sea?'🌊 '+t('seaView'):'🌿 '+t('garden')}</span><span>${t('terrace')} ${u.ter} ${t('m2')}</span></div>
+   <div class="price"><b>${u.st==='v'?'—':fmt(u.price)}</b><small>${u.st==='v'?'':''}</small></div></button>`).join(''):`<div class="empty">${t('none')}</div>`;
+ document.getElementById('moreBtn').parentElement.style.display=l.length>shown?'flex':'none';
+ g.querySelectorAll('.unit').forEach(b=>b.onclick=()=>openUnit(b.dataset.ref));}
+const dlg=document.getElementById('dlg');document.getElementById('dlgX').onclick=()=>dlg.close();
+dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+function openUnit(ref){const u=UNITS.find(x=>x.ref===ref);
+ document.getElementById('dlgBody').innerHTML=`<div class="pl"><span class="kicker">${t('dlgPlan')}</span>${planSVG(u.type,u.s,u.ter)}</div>
+ <div class="info"><span class="st ${u.st}" style="align-self:flex-start">${t('st_'+u.st)}</span><h3><bdi>${u.type}</bdi> · <bdi>${u.ref}</bdi></h3>
+ <dl><dt>${t('surface')}</dt><dd>${u.s} ${t('m2')}</dd><dt>${t('terrace')}</dt><dd>${u.ter} ${t('m2')}</dd><dt>${t('floor')}</dt><dd>${u.f} / ${BLD[u.b].floors}</dd><dt>${t('bat')}</dt><dd>${u.b}</dd><dt>${t('expo')}</dt><dd>${t('expoV')[u.expo]}</dd></dl>
+ <div class="big">${u.st==='v'?t('st_v'):fmt(u.price)}</div>
+ ${u.st==='v'?'':`<a class="btn wa" target="_blank" rel="noopener" href="${wa(t('waUnit')({ref:u.ref,type:u.type,s:u.s,fl:floorL(u.f)}))}">${t('bookVisit')}</a><button class="btn ghost" id="simU">${t('simulate')}</button>`}</div>`;
+ const su=document.getElementById('simU');if(su)su.onclick=()=>{document.getElementById('sPrice').value=u.price;renderSim();dlg.close();document.getElementById('simulateur').scrollIntoView()};
+ dlg.showModal();}
+
+/* ---------- simulateur ---------- */
+let TAB='vsp';
+function buildSim(){document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{TAB=b.dataset.tab;document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',String(x===b)));document.getElementById('credFields').hidden=TAB!=='credit';renderSim()})}
+['sPrice','sApport','sYears','sRate'].forEach(id=>document.getElementById(id).addEventListener('input',renderSim));
+function renderSim(){const P=Math.max(0,+document.getElementById('sPrice').value||0);const out=document.getElementById('simRes');
+ const ap=+document.getElementById('sApport').value,yr=+document.getElementById('sYears').value,rt=+document.getElementById('sRate').value;
+ document.getElementById('oApport').textContent=ap+' %';document.getElementById('oYears').textContent=yr+' '+t('years');document.getElementById('oRate').textContent=String(rt).replace('.',',')+' %';
+ if(TAB==='vsp'){out.innerHTML=`<div class="hl"><span>${t('vspT')}</span><b>${fmt(P)}</b></div><table class="sched">${t('vsp').map(([l,d,p])=>`<tr><td>${l}<small>${d} · ${Math.round(p*100)} %</small></td><td>${fmt(P*p)}</td></tr>`).join('')}</table><p class="note">${t('note')}</p>`}
+ else{const L=P*(1-ap/100),r=rt/100/12,n=yr*12;const M=r?L*r/(1-Math.pow(1+r,-n)):L/n;
+  out.innerHTML=`<div class="hl"><span>${t('monthly')}</span><b>${fmt(M)}</b></div><table class="sched"><tr><td>${t('apportA')} (${ap} %)</td><td>${fmt(P-L)}</td></tr><tr><td>${t('loan')}</td><td>${fmt(L)}</td></tr><tr><td>${t('totalCost')}</td><td>${fmt(M*n-L)}</td></tr></table><p class="note">${t('note')}</p>`}}
+
+/* ---------- travaux, galerie, distances, faq ---------- */
+function buildWorks(){document.getElementById('prog').innerHTML=t('prog').map(([l,v])=>`<div class="pr"><b>${l}</b><span>${v} %</span><div class="bar"><i style="width:${v}%"></i></div></div>`).join('');
+ document.getElementById('steps').innerHTML=t('steps').map(([l,d,c])=>`<div class="stp ${c}"><b>${l}</b><small>${d}</small></div>`).join('')}
+const GAL=['maquette-3d-aerienne.jpg','residence-facade.jpg','maquette-3d-coucher-soleil.jpg','interieur-sejour.jpg','hall-residence.jpg','plan-de-masse.jpg'];
+function buildGal(){const caps=t('gal');document.getElementById('gal').innerHTML=GAL.map((f,i)=>`<button class="g${Math.min(i+1,5)}" data-i="${i}"><img src="img/${f}" alt="${caps[i]}" loading="lazy"><span>${caps[i]}</span></button>`).join('');
+ document.querySelectorAll('#gal button').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;document.getElementById('lbImg').src='img/'+GAL[i];document.getElementById('lbImg').alt=caps[i];document.getElementById('lbCap').textContent=caps[i];document.getElementById('lb').showModal()})}
+document.getElementById('lb').addEventListener('click',()=>document.getElementById('lb').close());
+const DIC=['M3 18c3-3 6-3 9 0s6 3 9 0M12 3v9','M3 21h18M5 21V9l7-5 7 5v12','M4 19V9l8-5 8 5v10M9 19v-5h6v5','M4 20L10 4h4l6 16M12 8v2M12 14v2','M2 16l20-8-6 12-4-5-5 3z'];
+function buildDist(){document.getElementById('dist').innerHTML=t('dist').map(([l,v],i)=>`<div class="di"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${DIC[i]}"/></svg><span>${l}</span><b>${v}</b></div>`).join('')}
+function buildFaq(){document.getElementById('faqList').innerHTML=t('faq').map(([q,a],i)=>`<details ${i===0?'open':''}><summary>${q}</summary><p>${a}</p></details>`).join('')}
+function buildWhen(){const s=document.getElementById('cWhen');s.innerHTML=t('whenOpts').map(o=>`<option>${o}</option>`).join('')}
+
+/* ---------- form ---------- */
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const v=id=>document.getElementById(id).value.trim();const err=document.getElementById('err');
+ if(!v('cName')||!v('cTel')){err.textContent=t('errMsg');err.hidden=false;return}err.hidden=true;
+ window.open(wa(t('waForm')({n:v('cName'),t:v('cTel'),ty:v('cType'),w:v('cWhen'),m:v('cMsg')})),'_blank','noopener')});
+
+/* ---------- menu & reveal ---------- */
+const mb=document.getElementById('menu'),ln=document.getElementById('links');
+mb.onclick=()=>{const o=ln.classList.toggle('open');mb.setAttribute('aria-expanded',String(o))};
+ln.querySelectorAll('a').forEach(a=>a.onclick=()=>{ln.classList.remove('open');mb.setAttribute('aria-expanded','false')});
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}}),{threshold:0,rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+
+applyLang();
+</script>
+</body>
+</html>
